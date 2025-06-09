@@ -12,20 +12,28 @@ export default function App() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // Only allow digits and one dot for decimal
     const validPattern = /^(\d{0,2}(\.\d{0,2})?)?$/;
 
-    // Check if value is valid format AND within range
     if (validPattern.test(value)) {
       if (value === "" || (parseFloat(value) >= 0 && parseFloat(value) <= 20)) {
         setInputs({ ...inputs, [name]: value });
+        setFinalAverage(null);
+        setAdmitted(null);
       }
     }
   };
 
-  const handleNext = () => setStep(step + 1);
-  const handleBack = () => setStep(step - 1);
+  const handleNext = () => {
+    setStep(step + 1);
+    setFinalAverage(null);
+    setAdmitted(null);
+  };
+
+  const handleBack = () => {
+    setStep(step - 1);
+    setFinalAverage(null);
+    setAdmitted(null);
+  };
 
   const calcAverage = () => {
     const parsedInputs = Object.fromEntries(
@@ -98,7 +106,6 @@ export default function App() {
 
   const renderInput = (name, label) => {
     const value = inputs[name] || "";
-
     return (
       <input
         name={name}
@@ -108,6 +115,16 @@ export default function App() {
         type="text"
       />
     );
+  };
+
+  const handleReset = () => {
+    setBranch1("");
+    setBranch2("");
+    setStep(1);
+    setInputs({});
+    setFinalAverage(null);
+    setAdmitted(null);
+    setHasControls(null);
   };
 
   return (
@@ -284,12 +301,15 @@ export default function App() {
         </>
       )}
 
-      {finalAverage && (
+      {finalAverage !== null && (
         <div>
           <p>
             Final Baccalaureate Average: <strong>{finalAverage}</strong>
           </p>
           <p>{admitted ? "✅ Admitted" : "❌ Not Admitted"}</p>
+          <button className="btn-reset" onClick={handleReset}>
+            Reset
+          </button>
         </div>
       )}
     </div>
