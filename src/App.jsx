@@ -8,22 +8,42 @@ export default function App() {
   const [finalAverage, setFinalAverage] = useState(null);
   const [admitted, setAdmitted] = useState(null);
   const [branch2, setBranch2] = useState("");
+  const [hasControls, setHasControls] = useState(null);
 
   const handleChange = (e) => {
-    setInputs({ ...inputs, [e.target.name]: parseFloat(e.target.value) });
+    const { name, value } = e.target;
+
+    // Only allow digits and one dot for decimal
+    const validPattern = /^(\d{0,2}(\.\d{0,2})?)?$/;
+
+    // Check if value is valid format AND within range
+    if (validPattern.test(value)) {
+      if (value === "" || (parseFloat(value) >= 0 && parseFloat(value) <= 20)) {
+        setInputs({ ...inputs, [name]: value });
+      }
+    }
   };
 
   const handleNext = () => setStep(step + 1);
+  const handleBack = () => setStep(step - 1);
 
   const calcAverage = () => {
+    const parsedInputs = Object.fromEntries(
+      Object.entries(inputs).map(([key, value]) => [key, parseFloat(value)])
+    );
+
     let note_regio = 0,
       note_national = 0;
-    let total_s1_s2 =
-      inputs.s1 !== undefined ? (inputs.s1 + inputs.s2) / 2 : null;
+    let total_s1_s2 = hasControls
+      ? (parsedInputs.s1 + parsedInputs.s2) / 2
+      : null;
 
     if (branch1 === "science") {
       const total1 =
-        inputs.fr * 4 + inputs.hg * 2 + inputs.islamic * 2 + inputs.ar * 2;
+        parsedInputs.fr * 4 +
+        parsedInputs.hg * 2 +
+        parsedInputs.islamic * 2 +
+        parsedInputs.ar * 2;
       note_regio = total1 / 10;
 
       let coef = {
@@ -35,18 +55,19 @@ export default function App() {
       };
 
       const total2 =
-        inputs.svt * coef.svt +
-        inputs.math * coef.math +
-        inputs.pc * coef.pc +
-        inputs.philo * coef.philo +
-        inputs.en * coef.en;
+        parsedInputs.svt * coef.svt +
+        parsedInputs.math * coef.math +
+        parsedInputs.pc * coef.pc +
+        parsedInputs.philo * coef.philo +
+        parsedInputs.en * coef.en;
 
       const totalCoef = Object.values(coef).reduce((a, b) => a + b);
       note_national = total2 / totalCoef;
     }
 
     if (branch1 === "adab") {
-      const total1 = inputs.fr * 4 + inputs.islamic * 2 + inputs.math * 1;
+      const total1 =
+        parsedInputs.fr * 4 + parsedInputs.islamic * 2 + parsedInputs.math * 1;
       note_regio = total1 / 7;
 
       let coef = {
@@ -57,10 +78,10 @@ export default function App() {
       };
 
       const total2 =
-        inputs.ar * coef.ar +
-        inputs.en * coef.en +
-        inputs.hg * coef.hg +
-        inputs.philo * coef.philo;
+        parsedInputs.ar * coef.ar +
+        parsedInputs.en * coef.en +
+        parsedInputs.hg * coef.hg +
+        parsedInputs.philo * coef.philo;
 
       const totalCoef = Object.values(coef).reduce((a, b) => a + b);
       note_national = total2 / totalCoef;
@@ -75,8 +96,22 @@ export default function App() {
     setAdmitted(moyenne_bac >= 10);
   };
 
+  const renderInput = (name, label) => {
+    const value = inputs[name] || "";
+
+    return (
+      <input
+        name={name}
+        placeholder={label}
+        value={value}
+        onChange={handleChange}
+        type="text"
+      />
+    );
+  };
+
   return (
-    <div className="p-6 max-w-xl mx-auto text-center">
+    <div className="container">
       <h1>Baccalaureate Average Calculator</h1>
 
       {step === 1 && (
@@ -103,119 +138,146 @@ export default function App() {
         </>
       )}
 
-      {step === 2 && branch1 === "science" && (
+      {step === 2 && (
         <>
-          <input name="fr" placeholder="French" onChange={handleChange} />
-          <input
-            name="hg"
-            placeholder="History & Geography"
-            onChange={handleChange}
-          />
-          <input name="islamic" placeholder="Islamic" onChange={handleChange} />
-          <input name="ar" placeholder="Arabic" onChange={handleChange} />
+          {branch1 === "science" ? (
+            <>
+              {renderInput("fr", "French")}
+              {renderInput("hg", "History & Geography")}
+              {renderInput("islamic", "Islamic")}
+              {renderInput("ar", "Arabic")}
+            </>
+          ) : (
+            <>
+              {renderInput("fr", "French")}
+              {renderInput("islamic", "Islamic")}
+              {renderInput("math", "Math")}
+            </>
+          )}
+          <button className="btn back" onClick={handleBack}>
+            Back
+          </button>
           <button className="btn" onClick={handleNext}>
             Next
           </button>
         </>
       )}
 
-      {step === 2 && branch1 === "adab" && (
+      {step === 3 && (
         <>
-          <input name="fr" placeholder="French" onChange={handleChange} />
-          <input name="islamic" placeholder="Islamic" onChange={handleChange} />
-          <input name="math" placeholder="Math" onChange={handleChange} />
-          <button className="btn" onClick={handleNext}>
-            Next
-          </button>
-        </>
-      )}
-
-      {step === 3 && branch1 === "science" && (
-        <>
-          <p>Choose your scientific stream:</p>
-          <button
-            className="btn"
-            onClick={() => {
-              setBranch2("svt");
-              handleNext();
-            }}
-          >
-            SVT
-          </button>
-          <button
-            className="btn"
-            onClick={() => {
-              setBranch2("pc");
-              handleNext();
-            }}
-          >
-            PC
-          </button>
-        </>
-      )}
-
-      {step === 3 && branch1 === "adab" && (
-        <>
-          <p>Choose your literature stream:</p>
-          <button
-            className="btn"
-            onClick={() => {
-              setBranch2("lettres");
-              handleNext();
-            }}
-          >
-            Lettres
-          </button>
-          <button
-            className="btn"
-            onClick={() => {
-              setBranch2("science humain");
-              handleNext();
-            }}
-          >
-            Science Humain
+          {branch1 === "science" ? (
+            <>
+              <p>Choose your scientific stream:</p>
+              <button
+                className="btn"
+                onClick={() => {
+                  setBranch2("svt");
+                  handleNext();
+                }}
+              >
+                SVT
+              </button>
+              <button
+                className="btn"
+                onClick={() => {
+                  setBranch2("pc");
+                  handleNext();
+                }}
+              >
+                PC
+              </button>
+            </>
+          ) : (
+            <>
+              <p>Choose your literature stream:</p>
+              <button
+                className="btn"
+                onClick={() => {
+                  setBranch2("lettres");
+                  handleNext();
+                }}
+              >
+                Lettres
+              </button>
+              <button
+                className="btn"
+                onClick={() => {
+                  setBranch2("science humain");
+                  handleNext();
+                }}
+              >
+                Science Humain
+              </button>
+            </>
+          )}
+          <button className="btn back" onClick={handleBack}>
+            Back
           </button>
         </>
       )}
 
       {step === 4 && (
         <>
-          {branch1 === "science" && (
+          {branch1 === "science" ? (
             <>
-              <input name="svt" placeholder="SVT" onChange={handleChange} />
-              <input name="math" placeholder="Math" onChange={handleChange} />
-              <input
-                name="pc"
-                placeholder="Physics-Chemistry"
-                onChange={handleChange}
-              />
-              <input
-                name="philo"
-                placeholder="Philosophy"
-                onChange={handleChange}
-              />
-              <input name="en" placeholder="English" onChange={handleChange} />
+              {renderInput("svt", "SVT")}
+              {renderInput("math", "Math")}
+              {renderInput("pc", "Physics-Chemistry")}
+              {renderInput("philo", "Philosophy")}
+              {renderInput("en", "English")}
+            </>
+          ) : (
+            <>
+              {renderInput("ar", "Arabic")}
+              {renderInput("en", "English")}
+              {renderInput("hg", "History & Geography")}
+              {renderInput("philo", "Philosophy")}
             </>
           )}
-          {branch1 === "adab" && (
-            <>
-              <input name="ar" placeholder="Arabic" onChange={handleChange} />
-              <input name="en" placeholder="English" onChange={handleChange} />
-              <input
-                name="hg"
-                placeholder="History & Geography"
-                onChange={handleChange}
-              />
-              <input
-                name="philo"
-                placeholder="Philosophy"
-                onChange={handleChange}
-              />
-            </>
-          )}
+
           <p>Do you have continuous controls?</p>
-          <input name="s1" placeholder="Semester 1" onChange={handleChange} />
-          <input name="s2" placeholder="Semester 2" onChange={handleChange} />
+          <button
+            className="btn"
+            onClick={() => {
+              setHasControls(true);
+              handleNext();
+            }}
+          >
+            Yes
+          </button>
+          <button
+            className="btn"
+            onClick={() => {
+              setHasControls(false);
+              handleNext();
+            }}
+          >
+            No
+          </button>
+          <button className="btn back" onClick={handleBack}>
+            Back
+          </button>
+        </>
+      )}
+
+      {step === 5 && hasControls && (
+        <>
+          {renderInput("s1", "Semester 1")}
+          {renderInput("s2", "Semester 2")}
+          <button className="btn back" onClick={handleBack}>
+            Back
+          </button>
+          <button className="btn" onClick={calcAverage}>
+            Calculate
+          </button>
+        </>
+      )}
+
+      {step === 5 && hasControls === false && (
+        <>
+          <button className="btn back" onClick={handleBack}>
+            Back
+          </button>
           <button className="btn" onClick={calcAverage}>
             Calculate
           </button>
