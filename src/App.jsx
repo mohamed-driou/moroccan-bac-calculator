@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import "./App.css";
 
+// Version tracking - added right after imports
+const APP_VERSION = {
+  version: "1.0",
+  build: Date.now(),
+  env: import.meta.env.MODE
+};
+console.log("Bac Calculator Version:", APP_VERSION);
+
 export default function App() {
   const [branch1, setBranch1] = useState("");
   const [step, setStep] = useState(1);
