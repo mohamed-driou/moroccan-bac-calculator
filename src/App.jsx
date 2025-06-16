@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 
 const APP_VERSION = {
-  version: "1.1",
+  version: "1.2",
   build: Date.now(),
   env: import.meta.env.MODE,
 };
@@ -43,99 +43,161 @@ export default function App() {
     setAdmitted(null);
   };
 
+  const validateInputs = () => {
+    const requiredFields = [];
+    
+    if (branch1 === "science") {
+      requiredFields.push("fr", "hg", "islamic", "ar", "math");
+      if (branch2 === "svt") requiredFields.push("svt");
+      if (branch2 === "pc") requiredFields.push("pc");
+      requiredFields.push("philo", "en");
+    } else if (branch1 === "adab") {
+      requiredFields.push("fr", "islamic", "math", "ar", "en", "hg", "philo");
+    }
+    
+    if (hasSport) requiredFields.push("sport");
+    if (studentType === "regular" && hasControls) {
+      requiredFields.push("s1", "s2");
+    }
+    
+    return requiredFields.every(field => inputs[field] && !isNaN(inputs[field]));
+  };
+
   const calcAverage = () => {
+    if (!validateInputs()) {
+      alert("Please fill all required fields with valid grades (0-20)");
+      return;
+    }
+
     const parsedInputs = Object.fromEntries(
       Object.entries(inputs).map(([key, value]) => [key, parseFloat(value)])
     );
 
-    let note_regio = 0,
-      note_national = 0;
+    // For regular students, keep the existing calculation
+    if (studentType === "regular") {
+      let note_regio = 0, note_national = 0;
+      let total_s1_s2 = hasControls ? (parsedInputs.s1 + parsedInputs.s2) / 2 : null;
 
-    let total_s1_s2 =
-      studentType === "regular" && hasControls
-        ? (parsedInputs.s1 + parsedInputs.s2) / 2
-        : null;
+      if (branch1 === "science") {
+        let total1 =
+          parsedInputs.fr * 4 +
+          parsedInputs.hg * 2 +
+          parsedInputs.islamic * 2 +
+          parsedInputs.ar * 2;
 
-    if (branch1 === "science") {
-      let total1 =
-        parsedInputs.fr * 4 +
-        parsedInputs.hg * 2 +
-        parsedInputs.islamic * 2 +
-        parsedInputs.ar * 2;
-
-      if (studentType === "independent" && hasSport && parsedInputs.sport) {
-        total1 += parsedInputs.sport * 1;
-        note_regio = total1 / 11;
-      } else {
         note_regio = total1 / 10;
-      }
 
-      let coef = {
-        svt: branch2 === "svt" ? 7 : 5,
-        math: 7,
-        pc: branch2 === "pc" ? 7 : 5,
-        philo: 2,
-        en: 2,
-      };
+        let coef = {
+          svt: branch2 === "svt" ? 7 : 5,
+          math: 7,
+          pc: branch2 === "pc" ? 7 : 5,
+          philo: 2,
+          en: 2,
+        };
 
-      const total2 =
-        parsedInputs.svt * coef.svt +
-        parsedInputs.math * coef.math +
-        parsedInputs.pc * coef.pc +
-        parsedInputs.philo * coef.philo +
-        parsedInputs.en * coef.en;
+        const total2 =
+          parsedInputs.svt * coef.svt +
+          parsedInputs.math * coef.math +
+          parsedInputs.pc * coef.pc +
+          parsedInputs.philo * coef.philo +
+          parsedInputs.en * coef.en;
 
-      const totalCoef = Object.values(coef).reduce((a, b) => a + b);
-      note_national = total2 / totalCoef;
-    }
+        const totalCoef = Object.values(coef).reduce((a, b) => a + b);
+        note_national = total2 / totalCoef;
+      } else if (branch1 === "adab") {
+        let total1 =
+          parsedInputs.fr * 4 +
+          parsedInputs.islamic * 2 +
+          parsedInputs.math * 1;
 
-    if (branch1 === "adab") {
-      let total1 =
-        parsedInputs.fr * 4 +
-        parsedInputs.islamic * 2 +
-        parsedInputs.math * 1;
-
-      if (studentType === "independent" && hasSport && parsedInputs.sport) {
-        total1 += parsedInputs.sport * 1;
-        note_regio = total1 / 8;
-      } else {
         note_regio = total1 / 7;
+
+        let coef = {};
+        if (branch2 === "lettres") {
+          coef = {
+            ar: 4,
+            en: 4,
+            hg: 3,
+            philo: 3,
+          };
+        } else {
+          coef = {
+            ar: 3,
+            en: 3,
+            hg: 4,
+            philo: 4,
+          };
+        }
+
+        const total2 =
+          parsedInputs.ar * coef.ar +
+          parsedInputs.en * coef.en +
+          parsedInputs.hg * coef.hg +
+          parsedInputs.philo * coef.philo;
+
+        const totalCoef = Object.values(coef).reduce((a, b) => a + b);
+        note_national = total2 / totalCoef;
       }
 
-      let coef = {};
-      if (branch2 === "lettres") {
-        coef = {
-          ar: 4,
-          en: 4,
-          hg: 3,
-          philo: 3,
-        };
-      } else {
-        coef = {
-          ar: 3,
-          en: 3,
-          hg: 4,
-          philo: 4,
-        };
-      }
+      let moyenne_bac =
+        total_s1_s2 !== null
+          ? total_s1_s2 * 0.25 + note_regio * 0.25 + note_national * 0.5
+          : note_regio * 0.25 + note_national * 0.75;
 
-      const total2 =
-        parsedInputs.ar * coef.ar +
-        parsedInputs.en * coef.en +
-        parsedInputs.hg * coef.hg +
-        parsedInputs.philo * coef.philo;
-
-      const totalCoef = Object.values(coef).reduce((a, b) => a + b);
-      note_national = total2 / totalCoef;
+      setFinalAverage(moyenne_bac.toFixed(2));
+      setAdmitted(moyenne_bac >= 10);
+      return;
     }
 
-    let moyenne_bac =
-      total_s1_s2 !== null
-        ? total_s1_s2 * 0.25 + note_regio * 0.25 + note_national * 0.5
-        : note_regio * 0.25 + note_national * 0.75;
+    // NEW CALCULATION FOR INDEPENDENT CANDIDATES
+    if (studentType === "independent") {
+      let coefficients = {};
+      let totalPoints = 0;
+      let totalCoefficients = 0;
 
-    setFinalAverage(moyenne_bac.toFixed(2));
-    setAdmitted(moyenne_bac >= 10);
+      // Define coefficients based on branch
+      if (branch1 === "science") {
+        coefficients = {
+          fr: 4,
+          hg: 2,
+          islamic: 2,
+          ar: 2,
+          sport: hasSport ? 1 : 0,
+          // National exam subjects
+          svt: branch2 === "svt" ? 7 : 5,
+          math: 7,
+          pc: branch2 === "pc" ? 7 : 5,
+          philo: 2,
+          en: 2,
+        };
+      } else if (branch1 === "adab") {
+        coefficients = {
+          fr: 4,
+          islamic: 2,
+          math: 1,
+          sport: hasSport ? 1 : 0,
+          // National exam subjects
+          ar: branch2 === "lettres" ? 4 : 3,
+          en: branch2 === "lettres" ? 4 : 3,
+          hg: branch2 === "lettres" ? 3 : 4,
+          philo: branch2 === "lettres" ? 3 : 4,
+        };
+      }
+
+      // Calculate total points and coefficients
+      for (const [subject, coef] of Object.entries(coefficients)) {
+        if (parsedInputs[subject] !== undefined && coef > 0) {
+          totalPoints += parsedInputs[subject] * coef;
+          totalCoefficients += coef;
+        }
+      }
+
+      // Calculate final average
+      const finalAverage = totalPoints / totalCoefficients;
+
+      setFinalAverage(finalAverage.toFixed(2));
+      setAdmitted(finalAverage >= 10);
+    }
   };
 
   const renderInput = (name, label) => {
