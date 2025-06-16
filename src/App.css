@@ -133,6 +133,43 @@ input:focus {
   transform: translateY(-2px);
 }
 
+
+
+/* Physical Education Question Buttons */
+.question-box.sport-question .btn.btn-yes {
+  background-color: #4CAF50 !important; /* Green color for Yes */
+}
+
+.question-box.sport-question .btn.btn-yes:hover {
+  background-color: #3e8e41 !important; /* Darker green on hover */
+}
+
+.question-box.sport-question .btn.btn-no {
+  background-color: #f44336 !important; /* Red color for No */
+}
+
+.question-box.sport-question .btn.btn-no:hover {
+  background-color: #d32f2f !important; /* Darker red on hover */
+}
+
+
+/* Continuous Controls Question Buttons */
+.question-box .btn-yes {
+  background-color: #3498db; /* Blue color for Yes */
+}
+
+.question-box .btn-yes:hover {
+  background-color: #2980b9; /* Darker blue on hover */
+}
+
+.question-box .btn-no {
+  background-color: #e67e22; /* Orange color for No */
+}
+
+.question-box .btn-no:hover {
+  background-color: #d35400; /* Darker orange on hover */
+}
+
 /* Question Boxes */
 .question-box {
   background-color: rgba(255, 255, 255, 0.7);
@@ -232,6 +269,7 @@ input:focus {
     width: 100%;
     margin: 0.5rem 0;
   }
+  
   
   .sport-buttons,
   .button-group {

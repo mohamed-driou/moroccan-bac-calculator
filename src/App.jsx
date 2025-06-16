@@ -9,7 +9,7 @@ const APP_VERSION = {
 console.log("Bac Calculator Version:", APP_VERSION);
 
 export default function App() {
-  const [studentType, setStudentType] = useState(null); // "independent" or "regular"
+  const [studentType, setStudentType] = useState(null);
   const [branch1, setBranch1] = useState("");
   const [step, setStep] = useState(0);
   const [inputs, setInputs] = useState({});
@@ -32,6 +32,10 @@ export default function App() {
   };
 
   const handleNext = () => {
+    if (step === 2 && studentType === "independent" && hasSport === null) {
+      alert("Please answer the Physical Education question");
+      return;
+    }
     setStep(step + 1);
     setFinalAverage(null);
     setAdmitted(null);
@@ -73,7 +77,6 @@ export default function App() {
       Object.entries(inputs).map(([key, value]) => [key, parseFloat(value)])
     );
 
-    // For regular students, keep the existing calculation
     if (studentType === "regular") {
       let note_regio = 0, note_national = 0;
       let total_s1_s2 = hasControls ? (parsedInputs.s1 + parsedInputs.s2) / 2 : null;
@@ -149,13 +152,11 @@ export default function App() {
       return;
     }
 
-    // NEW CALCULATION FOR INDEPENDENT CANDIDATES
     if (studentType === "independent") {
       let coefficients = {};
       let totalPoints = 0;
       let totalCoefficients = 0;
 
-      // Define coefficients based on branch
       if (branch1 === "science") {
         coefficients = {
           fr: 4,
@@ -163,7 +164,6 @@ export default function App() {
           islamic: 2,
           ar: 2,
           sport: hasSport ? 1 : 0,
-          // National exam subjects
           svt: branch2 === "svt" ? 7 : 5,
           math: 7,
           pc: branch2 === "pc" ? 7 : 5,
@@ -176,7 +176,6 @@ export default function App() {
           islamic: 2,
           math: 1,
           sport: hasSport ? 1 : 0,
-          // National exam subjects
           ar: branch2 === "lettres" ? 4 : 3,
           en: branch2 === "lettres" ? 4 : 3,
           hg: branch2 === "lettres" ? 3 : 4,
@@ -184,7 +183,6 @@ export default function App() {
         };
       }
 
-      // Calculate total points and coefficients
       for (const [subject, coef] of Object.entries(coefficients)) {
         if (parsedInputs[subject] !== undefined && coef > 0) {
           totalPoints += parsedInputs[subject] * coef;
@@ -192,9 +190,7 @@ export default function App() {
         }
       }
 
-      // Calculate final average
       const finalAverage = totalPoints / totalCoefficients;
-
       setFinalAverage(finalAverage.toFixed(2));
       setAdmitted(finalAverage >= 10);
     }
@@ -212,6 +208,7 @@ export default function App() {
           value={value}
           onChange={handleChange}
           type="text"
+          inputMode="decimal"
         />
       </div>
     );
@@ -285,8 +282,8 @@ export default function App() {
             <div className="question-box sport-question">
               <p>Do you have Physical Education?</p>
               <div className="sport-buttons">
-                <button className="btn" onClick={() => setHasSport(true)}>Yes</button>
-                <button className="btn" onClick={() => setHasSport(false)}>No</button>
+                <button className="btn btn-yes" onClick={() => setHasSport(true)}>Yes</button>
+                <button className="btn btn-no" onClick={() => setHasSport(false)}>No</button>
               </div>
             </div>
           )}
@@ -368,19 +365,21 @@ export default function App() {
             </>
           )}
 
-          {studentType === "regular" ? (
+          {studentType === "regular" && (
             <div className="question-box">
               <p>Do you have continuous controls?</p>
               <div className="button-group">
-                <button className="btn" onClick={() => { setHasControls(true); handleNext(); }}>
+                <button className="btn btn-yes" onClick={() => { setHasControls(true); handleNext(); }}>
                   Yes
                 </button>
-                <button className="btn" onClick={() => { setHasControls(false); handleNext(); }}>
+                <button className="btn btn-no" onClick={() => { setHasControls(false); handleNext(); }}>
                   No
                 </button>
               </div>
             </div>
-          ) : (
+          )}
+
+          {studentType === "independent" && (
             <div className="navigation-buttons">
               <button className="btn" onClick={handleNext}>
                 Next
