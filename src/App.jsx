@@ -78,12 +78,23 @@ export default function App() {
         parsedInputs.fr * 4 + parsedInputs.islamic * 2 + parsedInputs.math * 1;
       note_regio = total1 / 7;
 
-      let coef = {
-        ar: branch2 === "lettres" ? 4 : 2,
-        en: branch2 === "lettres" ? 4 : 2,
-        hg: branch2 === "lettres" ? 2 : 4,
-        philo: branch2 === "lettres" ? 2 : 4,
-      };
+      let coef = {};
+      if (branch2 === "lettres") {
+        coef = {
+          ar: 4,
+          en: 4,
+          hg: 3,
+          philo: 3,
+        };
+      } else {
+        // science humain
+        coef = {
+          ar: 3,
+          en: 3,
+          hg: 4,
+          philo: 4,
+        };
+      }
 
       const total2 =
         parsedInputs.ar * coef.ar +

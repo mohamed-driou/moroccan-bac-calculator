@@ -31,7 +31,7 @@ input {
 }
 
 .btn {
-  background-color: #4894ec;
+  background-color: #7cec48;
   color: white;
   padding: 0.6rem 1.5rem;
   margin: 0.5rem;
@@ -42,7 +42,7 @@ input {
 }
 
 .btn:hover {
-  background-color: #2760db;
+  background-color: #4bdb27;
 }
 
 .btn.back {
