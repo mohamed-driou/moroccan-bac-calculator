@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./App.css";
 
 const APP_VERSION = {
-  version: "1.2",
+  version: "1.4",
   build: Date.now(),
   env: import.meta.env.MODE,
 };
@@ -16,7 +16,6 @@ export default function App() {
   const [finalAverage, setFinalAverage] = useState(null);
   const [admitted, setAdmitted] = useState(null);
   const [branch2, setBranch2] = useState("");
-  const [hasControls, setHasControls] = useState(null);
   const [hasSport, setHasSport] = useState(null);
 
   const handleChange = (e) => {
@@ -60,7 +59,7 @@ export default function App() {
     }
     
     if (hasSport) requiredFields.push("sport");
-    if (studentType === "regular" && hasControls) {
+    if (studentType === "regular") {
       requiredFields.push("s1", "s2");
     }
     
@@ -78,80 +77,67 @@ export default function App() {
     );
 
     if (studentType === "regular") {
-      let note_regio = 0, note_national = 0;
-      let total_s1_s2 = hasControls ? (parsedInputs.s1 + parsedInputs.s2) / 2 : null;
+      // 1. Calculate Continuous Controls (25%)
+      const continuousControls = ((parsedInputs.s1 + parsedInputs.s2) / 2) * 0.25;
 
+      // 2. Calculate Regional Exam (25%)
+      let regionalExam = 0;
       if (branch1 === "science") {
-        let total1 =
-          parsedInputs.fr * 4 +
-          parsedInputs.hg * 2 +
-          parsedInputs.islamic * 2 +
+        const regionalTotal = 
+          parsedInputs.fr * 4 + 
+          parsedInputs.hg * 2 + 
+          parsedInputs.islamic * 2 + 
           parsedInputs.ar * 2;
+        const regionalCoefSum = 4 + 2 + 2 + 2;
+        regionalExam = (regionalTotal / regionalCoefSum) * 0.25;
+      } else if (branch1 === "adab") {
+        const regionalTotal = 
+          parsedInputs.fr * 4 + 
+          parsedInputs.islamic * 2 + 
+          parsedInputs.math * 1;
+        const regionalCoefSum = 4 + 2 + 1;
+        regionalExam = (regionalTotal / regionalCoefSum) * 0.25;
+      }
 
-        note_regio = total1 / 10;
-
-        let coef = {
+      // 3. Calculate National Exam (50%)
+      let nationalExam = 0;
+      if (branch1 === "science") {
+        const coef = {
           svt: branch2 === "svt" ? 7 : 5,
           math: 7,
           pc: branch2 === "pc" ? 7 : 5,
           philo: 2,
           en: 2,
         };
-
-        const total2 =
+        const nationalTotal = 
           parsedInputs.svt * coef.svt +
           parsedInputs.math * coef.math +
           parsedInputs.pc * coef.pc +
           parsedInputs.philo * coef.philo +
           parsedInputs.en * coef.en;
-
-        const totalCoef = Object.values(coef).reduce((a, b) => a + b);
-        note_national = total2 / totalCoef;
+        const nationalCoefSum = Object.values(coef).reduce((a, b) => a + b);
+        nationalExam = (nationalTotal / nationalCoefSum) * 0.50;
       } else if (branch1 === "adab") {
-        let total1 =
-          parsedInputs.fr * 4 +
-          parsedInputs.islamic * 2 +
-          parsedInputs.math * 1;
-
-        note_regio = total1 / 7;
-
-        let coef = {};
-        if (branch2 === "lettres") {
-          coef = {
-            ar: 4,
-            en: 4,
-            hg: 3,
-            philo: 3,
-          };
-        } else {
-          coef = {
-            ar: 3,
-            en: 3,
-            hg: 4,
-            philo: 4,
-          };
-        }
-
-        const total2 =
+        const coef = branch2 === "lettres" 
+          ? { ar: 4, en: 4, hg: 3, philo: 3 }
+          : { ar: 3, en: 3, hg: 4, philo: 4 };
+        const nationalTotal = 
           parsedInputs.ar * coef.ar +
           parsedInputs.en * coef.en +
           parsedInputs.hg * coef.hg +
           parsedInputs.philo * coef.philo;
-
-        const totalCoef = Object.values(coef).reduce((a, b) => a + b);
-        note_national = total2 / totalCoef;
+        const nationalCoefSum = Object.values(coef).reduce((a, b) => a + b);
+        nationalExam = (nationalTotal / nationalCoefSum) * 0.50;
       }
 
-      let moyenne_bac =
-        total_s1_s2 !== null
-          ? total_s1_s2 * 0.25 + note_regio * 0.25 + note_national * 0.5
-          : note_regio * 0.25 + note_national * 0.75;
-
-      setFinalAverage(moyenne_bac.toFixed(2));
-      setAdmitted(moyenne_bac >= 10);
+      // 4. Calculate Final Average
+      const finalAverage = continuousControls + regionalExam + nationalExam;
+      setFinalAverage(finalAverage.toFixed(2));
+      setAdmitted(finalAverage >= 10);
       return;
     }
 
+    // Independent student calculation
     if (studentType === "independent") {
       let coefficients = {};
       let totalPoints = 0;
@@ -222,7 +208,6 @@ export default function App() {
     setInputs({});
     setFinalAverage(null);
     setAdmitted(null);
-    setHasControls(null);
     setHasSport(null);
   };
 
@@ -263,6 +248,7 @@ export default function App() {
 
       {step === 2 && (
         <div className="step-content">
+          <h2 className="exam-title">Regional Exam</h2>
           {branch1 === "science" ? (
             <>
               {renderInput("fr", "French")}
@@ -348,6 +334,7 @@ export default function App() {
 
       {step === 4 && (
         <div className="step-content">
+          <h2 className="exam-title">National Exam</h2>
           {branch1 === "science" ? (
             <>
               {renderInput("svt", "SVT")}
@@ -365,54 +352,22 @@ export default function App() {
             </>
           )}
 
-          {studentType === "regular" && (
-            <div className="question-box">
-              <p>Do you have continuous controls?</p>
-              <div className="button-group">
-                <button className="btn btn-yes" onClick={() => { setHasControls(true); handleNext(); }}>
-                  Yes
-                </button>
-                <button className="btn btn-no" onClick={() => { setHasControls(false); handleNext(); }}>
-                  No
-                </button>
-              </div>
-            </div>
-          )}
-
-          {studentType === "independent" && (
-            <div className="navigation-buttons">
-              <button className="btn" onClick={handleNext}>
-                Next
-              </button>
-            </div>
-          )}
-
           <div className="navigation-buttons">
             <button className="btn back" onClick={handleBack}>
               Back
+            </button>
+            <button className="btn" onClick={handleNext}>
+              {studentType === "regular" ? "Next" : "Calculate Average"}
             </button>
           </div>
         </div>
       )}
 
-      {step === 5 && studentType === "regular" && hasControls === true && (
+      {step === 5 && studentType === "regular" && (
         <div className="step-content">
+          <h2 className="exam-title">Continuous Controls</h2>
           {renderInput("s1", "Semester 1")}
           {renderInput("s2", "Semester 2")}
-          <div className="navigation-buttons">
-            <button className="btn back" onClick={handleBack}>
-              Back
-            </button>
-            <button className="btn" onClick={calcAverage}>
-              Calculate Average
-            </button>
-          </div>
-        </div>
-      )}
-
-      {((step === 5 && studentType === "regular" && hasControls === false) ||
-        (step === 5 && studentType === "independent")) && (
-        <div className="step-content">
           <div className="navigation-buttons">
             <button className="btn back" onClick={handleBack}>
               Back
