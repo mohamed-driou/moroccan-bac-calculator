@@ -11,9 +11,14 @@ import "./App.css";
  */
 
 const APP_VERSION = {
-  version: "1.4",
+  version: "1.4.5",
   build: Date.now(),
-  env: import.meta.env.MODE,
+  lastUpdated: new Date().toLocaleDateString('en-US', {
+    
+    
+    year: 'numeric'
+    
+  })
 };
 console.log("Bac Calculator Version:", APP_VERSION);
 

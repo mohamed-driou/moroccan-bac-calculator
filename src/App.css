@@ -151,13 +151,12 @@ footer.copyright {
 }
 
 .version-info {
-  margin-top: 0.5rem;
   font-size: 0.85rem;
-  color: #555;
+  color: #666;
   display: flex;
   gap: 0.5rem;
-  flex-wrap: wrap;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .version-info a {
