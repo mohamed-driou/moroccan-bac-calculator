@@ -1,10 +1,16 @@
 {
   "name": "moroccan-bac-calculator",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "A Moroccan baccalaureate average calculator web app.",
   "license": "MIT",
   "author": "Mohamed Driou",
-  "keywords": ["bac", "calculator", "morocco", "education", "average"],
+  "keywords": [
+    "bac",
+    "calculator",
+    "morocco",
+    "education",
+    "average"
+  ],
   "main": "src/index.tsx",
   "repository": {
     "type": "git",
