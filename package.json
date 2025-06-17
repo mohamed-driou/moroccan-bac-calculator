@@ -33,6 +33,7 @@
     "vite": "^5.0.11"
   },
   "scripts": {
+    "build": "vite build",
     "version:patch": "git pull --tags && npm version patch -m 'Bump version to %s'",
     "version:minor": "git pull --tags && npm version minor -m 'Bump version to %s'",
     "version:major": "git pull --tags && npm version major -m 'Bump version to %s'",
