@@ -1,9 +1,19 @@
 {
-  "name": "react",
+  "name": "moroccan-bac-calculator",
   "version": "1.0.0",
-  "description": "",
-  "keywords": [],
+  "description": "A Moroccan baccalaureate average calculator web app.",
+  "license": "MIT",
+  "author": "Mohamed Driou",
+  "keywords": ["bac", "calculator", "morocco", "education", "average"],
   "main": "src/index.tsx",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mohamed-driou/moroccan-bac-calculator.git"
+  },
+  "homepage": "https://sicksimo.netlify.app/",
+  "bugs": {
+    "url": "https://github.com/mohamed-driou/moroccan-bac-calculator/issues"
+  },
   "dependencies": {
     "@livestore/adapter-web": "0.3.1",
     "react": "^19.0.0",
