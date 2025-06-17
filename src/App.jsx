@@ -10,7 +10,7 @@ import "./App.css";
  */
 
 const APP_VERSION = {
-  version: "1.4.5",
+  version: "1.4.7",
   build: Date.now(),
   lastUpdated: new Date().toLocaleDateString('en-US', {
     year: 'numeric',
