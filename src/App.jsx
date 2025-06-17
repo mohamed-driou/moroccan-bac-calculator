@@ -400,7 +400,7 @@ export default function App() {
       )}
     
       <footer className="copyright">
-        © 2024 Moroccan Bac Calculator - Licensed under MIT
+        © 2024 Developed by Mohamed Driou | Moroccan Bac Calculator | MIT Licensed
       </footer>
     </div>
   );
