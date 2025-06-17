@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./App.css";
 
+
 /**
  * Moroccan Baccalaureate Average Calculator
  * A React application for calculating baccalaureate scores according to Morocco's official grading system
@@ -400,7 +401,12 @@ export default function App() {
       )}
     
       <footer className="copyright">
-        © 2024 Developed by Mohamed Driou | Moroccan Bac Calculator | MIT Licensed
+        <p>© 2024 Developed by Mohamed Driou | Moroccan Bac Calculator | MIT Licensed</p>
+        <p className="version-info">
+          Version: {APP_VERSION.version} |
+          <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a> |
+          Updated: {APP_VERSION.lastUpdated}
+        </p>
       </footer>
     </div>
   );
