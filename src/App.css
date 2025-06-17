@@ -41,8 +41,6 @@ p {
   text-align: center;
 }
 
-
-
 /* Input Fields */
 .input-group {
   margin-bottom: 1rem;
@@ -115,26 +113,93 @@ input:focus {
   transform: translateY(-2px);
 }
 
-.btn-reset {
-  display: block;
-  width: 100%;
-  padding: 0.9rem;
-  background-color: #000;
+/* Results Screen Styles */
+.results-screen {
+  text-align: center;
+  padding: 2rem;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.results-screen h2 {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  content: "YOUR RESULT"; /* Updated title */
+}
+
+.final-score {
+  font-size: 4rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 1rem 0;
+  line-height: 1;
+}
+
+.score-max {
+  font-size: 1.8rem;
+  color: #95a5a6;
+  font-weight: 500;
+}
+
+.result-message {
+  font-size: 1.3rem;
+  padding: 1.2rem;
+  border-radius: 12px;
+  margin: 2rem 0;
+  font-weight: 500;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.result-message.success {
+  color: #2e7d32;
+  border: 2px solid rgba(46, 125, 50, 0.3);
+  content: "Congratulations! You are admitted"; /* Kept original success message */
+}
+
+.result-message.error {
+  color: #c62828;
+  border: 2px solid rgba(198, 40, 40, 0.3);
+  content: "We regret to inform you were not successful"; /* Updated failure message */
+}
+
+.reset-btn {
+  background-color: #2c3e50;
   color: white;
   border: none;
+  padding: 1rem 2rem;
   border-radius: 12px;
-  font-size: 1rem;
-  font-weight: bold;
-  margin: 1.5rem auto 0 auto;
+  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
+  margin-top: 1.5rem;
+  width: 100%;
+  max-width: 300px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.btn-reset:hover {
-  background-color: #920000;
+.reset-btn:hover {
+  background-color: #580000;
   transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
 }
 
+/* Legacy Result Card (can be removed if not used) */
+.result-card {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+}
+
+/* Footer */
 footer.copyright {
   margin-top: 2.5rem;
   padding: 1rem;
@@ -168,7 +233,7 @@ footer.copyright {
   text-decoration: underline;
 }
 
-/* Add this to your CSS */
+/* Exam Sections */
 .exam-title {
   color: #2c3e50;
   text-align: center;
@@ -181,37 +246,19 @@ footer.copyright {
 
 /* Physical Education Question Buttons */
 .question-box.sport-question .btn.btn-yes {
-  background-color: #4CAF50 !important; /* Green color for Yes */
+  background-color: #4CAF50 !important;
 }
 
 .question-box.sport-question .btn.btn-yes:hover {
-  background-color: #3e8e41 !important; /* Darker green on hover */
+  background-color: #3e8e41 !important;
 }
 
 .question-box.sport-question .btn.btn-no {
-  background-color: #f44336 !important; /* Red color for No */
+  background-color: #f44336 !important;
 }
 
 .question-box.sport-question .btn.btn-no:hover {
-  background-color: #d32f2f !important; /* Darker red on hover */
-}
-
-
-/* Continuous Controls Question Buttons */
-.question-box .btn-yes {
-  background-color: #3498db; /* Blue color for Yes */
-}
-
-.question-box .btn-yes:hover {
-  background-color: #2980b9; /* Darker blue on hover */
-}
-
-.question-box .btn-no {
-  background-color: #e67e22; /* Orange color for No */
-}
-
-.question-box .btn-no:hover {
-  background-color: #d35400; /* Darker orange on hover */
+  background-color: #d32f2f !important;
 }
 
 /* Question Boxes */
@@ -253,39 +300,6 @@ footer.copyright {
   margin-top: 1.5rem;
 }
 
-/* Results Section */
-.results {
-  margin-top: 1.5rem;
-  padding: 1.5rem;
-  border-radius: 15px;
-  background-color: rgba(255, 255, 255, 0.8);
-  animation: fadeIn 0.5s ease-out;
-}
-
-.results p:first-child {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-.results p:nth-child(2) {
-  font-size: 1.4rem;
-  font-weight: bold;
-  padding: 0.75rem;
-  margin: 1rem 0;
-  border-radius: 10px;
-}
-
-.results .admitted {
-  background-color: #d4edda;
-  color: #155724;
-}
-
-.results .not-admitted {
-  background-color: #f8d7da;
-  color: #721c24;
-}
-
 /* Step Content */
 .step-content {
   animation: fadeIn 0.3s ease-out;
@@ -309,11 +323,35 @@ footer.copyright {
     font-size: 1.6rem;
   }
   
+  .results-screen h2 {
+    font-size: 1.5rem;
+  }
+  
+  .final-score {
+    font-size: 3rem;
+  }
+  
+  .score-max {
+    font-size: 1.4rem;
+  }
+  
+  .result-message {
+    font-size: 1.1rem;
+    padding: 1rem;
+  }
+  
   .btn {
     width: 100%;
     margin: 0.5rem 0;
   }
   
+  .result-card {
+    padding: 1.5rem;
+  }
+  
+  .exam-title {
+    font-size: 1.3rem;
+  }
   
   .sport-buttons,
   .button-group {
@@ -324,5 +362,9 @@ footer.copyright {
   .navigation-buttons {
     flex-direction: column;
     gap: 10px;
+  }
+  
+  .reset-btn {
+    max-width: 100%;
   }
 }

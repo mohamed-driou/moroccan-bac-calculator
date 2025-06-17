@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./App.css";
 
-
 /**
  * Moroccan Baccalaureate Average Calculator
  * A React application for calculating baccalaureate scores according to Morocco's official grading system
@@ -14,10 +13,9 @@ const APP_VERSION = {
   version: "1.4.5",
   build: Date.now(),
   lastUpdated: new Date().toLocaleDateString('en-US', {
-    
-    
-    year: 'numeric'
-    
+    year: 'numeric',
+    month: 'short', 
+    day: 'numeric'
   })
 };
 console.log("Bac Calculator Version:", APP_VERSION);
@@ -31,6 +29,7 @@ export default function App() {
   const [admitted, setAdmitted] = useState(null);
   const [branch2, setBranch2] = useState("");
   const [hasSport, setHasSport] = useState(null);
+  const [showResults, setShowResults] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -144,15 +143,11 @@ export default function App() {
         nationalExam = (nationalTotal / nationalCoefSum) * 0.50;
       }
 
-      // 4. Calculate Final Average
       const finalAverage = continuousControls + regionalExam + nationalExam;
       setFinalAverage(finalAverage.toFixed(2));
       setAdmitted(finalAverage >= 10);
-      return;
-    }
-
-    // Independent student calculation
-    if (studentType === "independent") {
+    } else {
+      // Independent student calculation
       let coefficients = {};
       let totalPoints = 0;
       let totalCoefficients = 0;
@@ -194,6 +189,8 @@ export default function App() {
       setFinalAverage(finalAverage.toFixed(2));
       setAdmitted(finalAverage >= 10);
     }
+    
+    setShowResults(true);
   };
 
   const renderInput = (name, label) => {
@@ -223,7 +220,41 @@ export default function App() {
     setFinalAverage(null);
     setAdmitted(null);
     setHasSport(null);
+    setShowResults(false);
   };
+
+  if (showResults) {
+    return (
+      <div className="container">
+        <div className="results-screen">
+          <h2>YOUR RESULT</h2>
+          <div className="final-score">
+            {finalAverage} <span className="score-max">/20</span>
+          </div>
+          <p className={`result-message ${admitted ? "success" : "error"}`}>
+            {admitted ? "Congratulations! You are admitted" : "Unfortunately, you are not admitted"}
+          </p>
+          <button 
+            className="reset-btn"
+            onClick={handleReset}
+          >
+            Start New Calculation
+          </button>
+        </div>
+        
+        <footer className="copyright">
+          <p>© 2024 Developed by Mohamed Driou | Moroccan Bac Calculator | MIT Licensed</p>
+          <div className="version-info">
+            <span>v{APP_VERSION.version}</span>
+            <span>•</span>
+            <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>
+            <span>•</span>
+            <span>Updated: {APP_VERSION.lastUpdated}</span>
+          </div>
+        </footer>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
@@ -370,7 +401,10 @@ export default function App() {
             <button className="btn back" onClick={handleBack}>
               Back
             </button>
-            <button className="btn" onClick={handleNext}>
+            <button 
+              className="btn" 
+              onClick={studentType === "regular" ? handleNext : calcAverage}
+            >
               {studentType === "regular" ? "Next" : "Calculate Average"}
             </button>
           </div>
@@ -392,26 +426,16 @@ export default function App() {
           </div>
         </div>
       )}
-
-      {finalAverage !== null && (
-        <div className="results">
-          <p>Final Baccalaureate Average: <strong>{finalAverage}</strong></p>
-          <p className={admitted ? "admitted" : "not-admitted"}>
-            {admitted ? "✅ Congratulations! You are admitted" : "❌ Unfortunately, you are not admitted"}
-          </p>
-          <button className="btn-reset" onClick={handleReset}>
-            Start New Calculation
-          </button>
-        </div>
-      )}
     
       <footer className="copyright">
         <p>© 2024 Developed by Mohamed Driou | Moroccan Bac Calculator | MIT Licensed</p>
-        <p className="version-info">
-          Version: {APP_VERSION.version} |
-          <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a> |
-          Updated: {APP_VERSION.lastUpdated}
-        </p>
+        <div className="version-info">
+          <span>v{APP_VERSION.version}</span>
+          <span>•</span>
+          <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>
+          <span>•</span>
+          <span>Updated: {APP_VERSION.lastUpdated}</span>
+        </div>
       </footer>
     </div>
   );
