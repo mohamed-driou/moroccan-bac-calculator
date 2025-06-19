@@ -10,7 +10,7 @@ import "./App.css";
  */
 
 const APP_VERSION = {
-  version: "1.6.1",
+  version: "1.6.2",
   build: Date.now(),
   lastUpdated: new Date().toLocaleDateString('en-US', {
     year: 'numeric',
@@ -128,7 +128,6 @@ export default function App() {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
-    // Check for saved preference or system preference
     const savedMode = localStorage.getItem('darkMode');
     const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
@@ -175,6 +174,12 @@ export default function App() {
     setAdmitted(null);
   };
 
+  const handleBackFromResults = () => {
+    setShowResults(false);
+    const targetStep = studentType === "regular" ? 5 : 4;
+    setStep(targetStep);
+  };
+
   const handleReset = () => {
     setStudentType(null);
     setBranch1("");
@@ -216,10 +221,7 @@ export default function App() {
   };
 
   const calcAverage = () => {
-    console.log("Starting calculation...");
-    
     if (!validateInputs()) {
-      console.log("Validation failed - missing or invalid fields");
       alert("Please fill all required fields with valid grades (0-20)");
       return;
     }
@@ -229,13 +231,11 @@ export default function App() {
         Object.entries(inputs).map(([key, value]) => [key, parseFloat(value)])
       );
 
-      console.log("Parsed inputs:", parsedInputs);
-
       const steps = [];
       let finalAverage;
 
       if (studentType === "regular") {
-        // 1. Continuous Controls (25%)
+        // Continuous Controls (25%)
         const continuousAvg = (parsedInputs.s1 + parsedInputs.s2) / 2;
         const continuousControls = continuousAvg * 0.25;
         setContinuousControlNote(continuousAvg.toFixed(2));
@@ -246,7 +246,7 @@ export default function App() {
           details: `(Semester 1: ${parsedInputs.s1} + Semester 2: ${parsedInputs.s2}) / 2 = ${continuousAvg.toFixed(2)} × 25%`
         });
 
-        // 2. Regional Exam (25%)
+        // Regional Exam (25%)
         let regionalExam = 0;
         let regionalAvg = 0;
         if (branch1 === "science") {
@@ -272,7 +272,7 @@ export default function App() {
         }
         setRegionalExamNote(regionalAvg.toFixed(2));
 
-        // 3. National Exam (50%)
+        // National Exam (50%)
         let nationalExam = 0;
         let nationalAvg = 0;
         if (branch1 === "science") {
@@ -311,14 +311,12 @@ export default function App() {
         // Final average calculation
         finalAverage = continuousControls + regionalExam + nationalExam;
         
-        // Add final calculation step
         steps.push({
           title: "Final Average Calculation",
           value: finalAverage.toFixed(2),
           details: `Continuous Controls (${continuousControls.toFixed(2)}) + Regional Exam (${regionalExam.toFixed(2)}) + National Exam (${nationalExam.toFixed(2)})`
         });
 
-        // Set calculation steps for modal
         setCalculationSteps(steps);
       } else {
         // Independent candidate calculation
@@ -379,7 +377,6 @@ export default function App() {
         const finalAvg = (regionalAvg * 8 + nationalAvg * 14) / 22;
         finalAverage = finalAvg;
 
-        // Store calculation steps for modal
         setCalculationSteps([
           {
             title: "Regional Exam (8/22)",
@@ -406,7 +403,6 @@ export default function App() {
       setFinalAverage(finalAverage.toFixed(2));
       setAdmitted(finalAverage >= 10);
       setShowResults(true);
-      console.log("Calculation completed successfully");
     } catch (error) {
       console.error("Calculation error:", error);
       alert("An error occurred during calculation. Please check your inputs.");
@@ -495,19 +491,28 @@ export default function App() {
             {admitted ? "Congratulations! You are admitted" : "Unfortunately, you are not admitted"}
           </p>
           
-          <button 
-            className="btn breakdown-btn"
-            onClick={() => setShowBreakdown(true)}
-          >
-            Show Detailed Calculation
-          </button>
-          
-          <button 
-            className="reset-btn"
-            onClick={handleReset}
-          >
-            Start New Calculation
-          </button>
+          <div className="results-actions">
+            <button 
+              className="btn breakdown-btn"
+              onClick={() => setShowBreakdown(true)}
+            >
+              Show Detailed Calculation
+            </button>
+            
+            <button 
+              className="btn back-btn"
+              onClick={handleBackFromResults}
+            >
+              Back to Calculation
+            </button>
+            
+            <button 
+              className="reset-btn"
+              onClick={handleReset}
+            >
+              Start New Calculation
+            </button>
+          </div>
         </div>
         
         {showBreakdown && <CalculationBreakdownModal />}
