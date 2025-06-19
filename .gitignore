@@ -3,3 +3,15 @@
 # Local Netlify folder
 .netlify
 "node_modules/" 
+
+# Local files
+node_modules/
+scripts/
+.env
+.vscode/
+.DS_Store
+*.local.*
+dist/
+build/
+.cache/
+pnpm-workspace.yaml
