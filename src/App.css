@@ -5,7 +5,7 @@
 }
 
 :root {
-  --bg-color: #5e5e5e;
+  --bg-color: #797979;
   --text-color: #333;
   --container-bg: rgb(230, 230, 230);
   --primary-color: #ff8f32;
@@ -20,6 +20,8 @@
   --success-color: #2e7d32;
   --error-color: #c62828;
   --back-btn-color: #95a5a6;
+  --btn-back: #707070c4;
+  --btn-back-hover: #943636;
 }
 
 [data-theme="dark"] {
@@ -38,6 +40,7 @@
   --success-color: #4caf50;
   --error-color: #f44336;
   --back-btn-color: #666;
+  --btn-back-hover: #950606;
 }
 
 * {
@@ -342,12 +345,16 @@ input:invalid {
 }
 
 .btn.back {
-  background-color: var(--back-btn-color);
-  color: var(--text-color);
+  background-color: var(--btn-back);
+  color: rgb(59, 59, 59);
+  transition: all 0.3s ease; /* Add smooth transition */
 }
 
 .btn.back:hover {
-  background-color: var(--secondary-color);
+  background-color: var(--btn-back-hover); /* Bright yellow color on hover */
+  color: #333; /* Darker text color on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
 .btn-change-answer {
