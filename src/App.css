@@ -26,6 +26,10 @@ body {
   padding: 2.5rem;
   border-radius: 30px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(52, 123, 255, 0.05) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(255, 143, 50, 0.05) 0%, transparent 20%);
+  background-size: 200% 200%;
 }
 
 h1 {
@@ -82,11 +86,17 @@ p {
   margin-bottom: 1.2rem;
 }
 
-.input-group label {
-  display: block;
+.input-label-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   margin-bottom: 0.5rem;
+}
+
+.input-group label {
   font-weight: bold;
   color: #333;
+  margin-bottom: 0;
 }
 
 input {
@@ -106,6 +116,76 @@ input:focus {
   box-shadow: 0 0 0 3px rgba(0, 162, 255, 0.2);
 }
 
+/* Tooltip Styles */
+.tooltip-container {
+  display: inline-block;
+  position: relative;
+  margin-left: 8px;
+  cursor: help;
+}
+
+.tooltip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  font-size: 12px;
+  font-weight: bold;
+  font-style: italic;
+  border-radius: 50%;
+  background-color: #347bff;
+  color: white;
+  transition: transform 0.2s ease;
+  /* This ensures the "i" is properly centered */
+  line-height: 1;
+  padding-bottom: 1px; /* slight visual adjustment */
+}
+
+.tooltip-container:hover .tooltip-icon {
+  transform: scale(1.1);
+}
+
+.tooltip-content {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  width: 220px;
+  padding: 15px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+  line-height: 1.5;
+  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+
+.tooltip-content.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(-8px);
+}
+
+.tooltip-content h4 {
+  margin-bottom: 8px;
+  color: #2c3e50;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.tooltip-description {
+  margin-top: 8px;
+  color: #666;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
 /* Buttons */
 .btn {
   display: inline-block;
@@ -118,15 +198,15 @@ input:focus {
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
   min-width: 120px;
   text-align: center;
 }
 
 .btn:hover {
   background-color: #002fff;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
 }
 
 .btn.back {
@@ -170,6 +250,19 @@ input:focus {
   color: #2c3e50;
   margin: 1rem 0;
   line-height: 1;
+  position: relative;
+}
+
+.final-score::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #347bff, #ff8f32);
+  border-radius: 2px;
 }
 
 .score-max {
@@ -225,6 +318,36 @@ input:focus {
   margin-top: 1rem;
   width: 100%;
   max-width: 300px;
+}
+
+/* Exam Components Styles */
+.exam-components {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+  padding: 1.2rem;
+  margin: 1.5rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.exam-component {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.8rem;
+  font-size: 1.1rem;
+}
+
+.exam-component:last-child {
+  margin-bottom: 0;
+}
+
+.component-label {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.component-value {
+  font-weight: 600;
+  color: #347bff;
 }
 
 /* Modal Styles */
@@ -367,36 +490,6 @@ input:focus {
   padding-bottom: 0.5rem;
 }
 
-/* Exam Components Styles */
-.exam-components {
-  background-color: rgba(255, 255, 255, 0.7);
-  border-radius: 12px;
-  padding: 1.2rem;
-  margin: 1.5rem 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.exam-component {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 0.8rem;
-  font-size: 1.1rem;
-}
-
-.exam-component:last-child {
-  margin-bottom: 0;
-}
-
-.component-label {
-  font-weight: 500;
-  color: #2c3e50;
-}
-
-.component-value {
-  font-weight: 600;
-  color: #347bff;
-}
-
 /* Step Content */
 .step-content {
   animation: fadeIn 0.3s ease-out;
@@ -438,6 +531,25 @@ footer.copyright {
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #347bff;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #002fff;
 }
 
 /* Responsive Design */
@@ -507,6 +619,17 @@ footer.copyright {
   .modal-content {
     padding: 1.5rem;
   }
+
+  .tooltip-content {
+    width: 180px;
+    left: auto;
+    right: 0;
+    transform: translateY(10px);
+  }
+  
+  .tooltip-content.visible {
+    transform: translateY(-8px);
+  }
 }
 
 @media (max-width: 400px) {
@@ -522,5 +645,33 @@ footer.copyright {
   .modal-content {
     width: 95%;
     padding: 1rem;
+  }
+
+  .tooltip-content {
+    width: 160px;
+    font-size: 13px;
+  }
+}
+
+/* Print Styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .results-screen,
+  .results-screen * {
+    visibility: visible;
+  }
+  .results-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    background: white;
+    padding: 20px;
+  }
+  .breakdown-btn,
+  .reset-btn {
+    display: none;
   }
 }

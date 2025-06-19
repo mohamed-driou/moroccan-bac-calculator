@@ -10,7 +10,7 @@ import "./App.css";
  */
 
 const APP_VERSION = {
-  version: "1.4.9",
+  version: "1.5.0",
   build: Date.now(),
   lastUpdated: new Date().toLocaleDateString('en-US', {
     year: 'numeric',
@@ -18,6 +18,76 @@ const APP_VERSION = {
     day: 'numeric'
   })
 };
+
+const SubjectTooltip = ({ subject, coefficient, description }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
+  return (
+    <div 
+      className="tooltip-container" 
+      onMouseEnter={() => setIsVisible(true)}
+      onMouseLeave={() => setIsVisible(false)}
+      onClick={() => setIsVisible(!isVisible)}
+    >
+      <span className="tooltip-icon">i</span>
+      <div className={`tooltip-content ${isVisible ? 'visible' : ''}`}>
+        <h4>{subject}</h4>
+        <p><strong>Coefficient:</strong> {coefficient}</p>
+        {description && <p className="tooltip-description">{description}</p>}
+      </div>
+    </div>
+  );
+};
+const getSubjectInfo = (branch1, branch2) => ({
+  fr: {
+    coefficient: 4,
+    description: "French language exam"
+  },
+  hg: {
+    coefficient: branch1 === "science" ? 2 : 4,
+    description: "History & Geography exam"
+  },
+  islamic: {
+    coefficient: 2,
+    description: "Islamic education exam"
+  },
+  ar: {
+    coefficient: branch1 === "science" ? 2 : (branch2 === "lettres" ? 4 : 3),
+    description: "Arabic language exam"
+  },
+  math: {
+    coefficient: branch1 === "science" ? 7 : 1,
+    description: "Mathematics exam"
+  },
+  svt: {
+    coefficient: branch2 === "svt" ? 7 : 5,
+    description: "Life and Earth Sciences exam"
+  },
+  pc: {
+    coefficient: branch2 === "pc" ? 7 : 5,
+    description: "Physics-Chemistry exam"
+  },
+  philo: {
+    coefficient: 2,
+    description: "Philosophy exam"
+  },
+  en: {
+    coefficient: branch1 === "science" ? 2 : (branch2 === "lettres" ? 4 : 3),
+    description: "English language exam"
+  },
+  sport: {
+    coefficient: 1,
+    description: "Physical Education exam"
+  },
+  s1: {
+    coefficient: "Varies",
+    description: "First semester continuous control"
+  },
+  s2: {
+    coefficient: "Varies",
+    description: "Second semester continuous control"
+  }
+});
 
 export default function App() {
   const [studentType, setStudentType] = useState(null);
@@ -35,9 +105,11 @@ export default function App() {
   const [regionalExamNote, setRegionalExamNote] = useState(null);
   const [nationalExamNote, setNationalExamNote] = useState(null);
 
+  const subjectInfo = getSubjectInfo(branch1, branch2);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const validPattern = /^(\d{0,2}(\.\d{0,2})?)?$/;
+    const validPattern = /^(\d{0,2}(\.\d{0,2})?)$/;
     if (validPattern.test(value)) {
       if (value === "" || (parseFloat(value) >= 0 && parseFloat(value) <= 20)) {
         setInputs(prev => ({ ...prev, [name]: value }));
@@ -303,9 +375,18 @@ export default function App() {
 
   const renderInput = (name, label) => {
     const value = inputs[name] || "";
+    const subjectData = subjectInfo[name] || { coefficient: 1 };
+    
     return (
       <div className="input-group">
-        <label htmlFor={name}>{label}</label>
+        <div className="input-label-wrapper">
+          <label htmlFor={name}>{label}</label>
+          <SubjectTooltip 
+            subject={label} 
+            coefficient={subjectData.coefficient} 
+            description={subjectData.description} 
+          />
+        </div>
         <input
           id={name}
           name={name}
