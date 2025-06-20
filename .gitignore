@@ -1,6 +1,28 @@
-.vercel
+# Build output
+dist/
+.vite/
 
-# Local Netlify folder
-.netlify
-"node_modules/" 
-node_modules
+# Dependency directories
+node_modules/
+
+# Local deployment folders
+.vercel/
+.netlify/
+
+# Environment variables
+.env
+.env.*.local
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+*.log
+
+# Editor folders
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
