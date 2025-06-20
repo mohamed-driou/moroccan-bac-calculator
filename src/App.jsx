@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
+import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
 
 /**
  * Moroccan Baccalaureate Average Calculator
@@ -10,7 +11,7 @@ import "./App.css";
  */
 
 const APP_VERSION = {
-  version: "1.6.2",
+  version: "1.6.3",
   build: Date.now(),
   lastUpdated: new Date().toLocaleDateString('en-US', {
     year: 'numeric',
@@ -65,7 +66,7 @@ const getSubjectInfo = (branch1, branch2) => ({
     description: "French language exam"
   },
   hg: {
-    coefficient: branch1 === "science" ? 2 : 4,
+    coefficient: branch1 === "science" ? 2 : (branch2 === "lettres" ? 3 : 4),
     description: "History & Geography exam"
   },
   islamic: {
@@ -89,7 +90,7 @@ const getSubjectInfo = (branch1, branch2) => ({
     description: "Physics-Chemistry exam"
   },
   philo: {
-    coefficient: 2,
+    coefficient: branch1 === "science" ? 2 : (branch2 === "lettres" ? 3 : 4),
     description: "Philosophy exam"
   },
   en: {
@@ -126,6 +127,16 @@ export default function App() {
   const [regionalExamNote, setRegionalExamNote] = useState(null);
   const [nationalExamNote, setNationalExamNote] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
+  const [selectedValues, setSelectedValues] = useState({});
+  
+  const breadcrumbSteps = [
+    { label: 'Student Type', valueKey: 'studentType' },
+    { label: 'Branch', valueKey: 'branch1' },
+    { label: 'Regional Exam', valueKey: null },
+    { label: 'Stream', valueKey: 'branch2' },
+    { label: 'National Exam', valueKey: null },
+    ...(studentType === 'regular' ? [{ label: 'Controls', valueKey: null }] : [])
+  ];
 
   useEffect(() => {
     const savedMode = localStorage.getItem('darkMode');
@@ -195,32 +206,45 @@ export default function App() {
     setContinuousControlNote(null);
     setRegionalExamNote(null);
     setNationalExamNote(null);
+    setSelectedValues({});
   };
 
-  const validateInputs = () => {
-    const requiredFields = [];
-    
-    if (branch1 === "science") {
-      requiredFields.push("fr", "hg", "islamic", "ar", "math");
-      if (branch2 === "svt") requiredFields.push("svt");
-      if (branch2 === "pc") requiredFields.push("pc");
-      requiredFields.push("philo", "en");
-    } else if (branch1 === "adab") {
-      requiredFields.push("fr", "islamic", "math", "ar", "en", "hg", "philo");
-    }
-    
-    if (hasSport) requiredFields.push("sport");
-    if (studentType === "regular" && step === (studentType === "regular" ? 5 : 4)) {
-      requiredFields.push("s1", "s2");
-    }
-    
-    return requiredFields.every(field => {
-      const value = inputs[field];
-      return value !== undefined && value !== "" && !isNaN(value) && parseFloat(value) >= 0 && parseFloat(value) <= 20;
-    });
-  };
+const validateInputs = () => {
+  const requiredFields = [];
+  
+  // Common required fields for both student types
+  if (branch1 === "science") {
+    requiredFields.push("fr", "hg", "islamic", "ar", "math");
+    if (branch2 === "svt") requiredFields.push("svt");
+    if (branch2 === "pc") requiredFields.push("pc");
+    requiredFields.push("philo", "en");
+  } else if (branch1 === "adab") {
+    requiredFields.push("fr", "islamic", "math", "ar", "en", "hg", "philo");
+  }
+
+  // Only check for sport if independent candidate AND hasSport is true
+  if (studentType === "independent" && hasSport) {
+    requiredFields.push("sport");
+  }
+
+  // Only check for controls if regular student
+  if (studentType === "regular" && step === 5) {
+    requiredFields.push("s1", "s2");
+  }
+  
+  return requiredFields.every(field => {
+    const value = inputs[field];
+    return value !== undefined && value !== "" && !isNaN(value) && parseFloat(value) >= 0 && parseFloat(value) <= 20;
+  });
+};
 
   const calcAverage = () => {
+    if (studentType === "regular" && inputs.sport) {
+      const newInputs = {...inputs};
+      delete newInputs.sport;
+      setInputs(newInputs);
+    }
+
     if (!validateInputs()) {
       alert("Please fill all required fields with valid grades (0-20)");
       return;
@@ -550,6 +574,20 @@ export default function App() {
         </span>
       </div>
 
+      <Breadcrumbs 
+        steps={breadcrumbSteps} 
+        currentStep={step} 
+        selectedValues={{
+          studentType: studentType === "regular" ? "Regular Student" : "Independent Candidate",
+          branch1: branch1 === "science" ? "Science" : 
+                  branch1 === "adab" ? "Adab" : "",
+          branch2: branch2 === "svt" ? "SVT" : 
+                  branch2 === "pc" ? "PC" : 
+                  branch2 === "lettres" ? "Lettres" : 
+                  branch2 === "science humain" ? "Science Humain" : ""
+        }}
+      />
+
       <div className="progress-bar">
         {[...Array(studentType === 'regular' ? 6 : 5)].map((_, i) => (
           <div 
@@ -566,10 +604,18 @@ export default function App() {
         <div className="step-content">
           <p>Select your student type:</p>
           <div className="button-group">
-            <button className="btn" onClick={() => { setStudentType("regular"); handleNext(); }}>
+            <button className="btn" onClick={() => { 
+              setStudentType("regular"); 
+              setSelectedValues(prev => ({ ...prev, studentType: "Regular Student" }));
+              handleNext(); 
+            }}>
               Regular Student
             </button>
-            <button className="btn" onClick={() => { setStudentType("independent"); handleNext(); }}>
+            <button className="btn" onClick={() => { 
+              setStudentType("independent"); 
+              setSelectedValues(prev => ({ ...prev, studentType: "Independent Candidate" }));
+              handleNext(); 
+            }}>
               Independent Candidate
             </button>
           </div>
@@ -580,10 +626,18 @@ export default function App() {
         <div className="step-content">
           <p>Choose your branch:</p>
           <div className="button-group">
-            <button className="btn" onClick={() => { setBranch1("science"); handleNext(); }}>
+            <button className="btn" onClick={() => { 
+              setBranch1("science"); 
+              setSelectedValues(prev => ({ ...prev, branch1: "Science" }));
+              handleNext(); 
+            }}>
               Science
             </button>
-            <button className="btn" onClick={() => { setBranch1("adab"); handleNext(); }}>
+            <button className="btn" onClick={() => { 
+              setBranch1("adab"); 
+              setSelectedValues(prev => ({ ...prev, branch1: "Adab" }));
+              handleNext(); 
+            }}>
               Adab
             </button>
             <button className="btn back" onClick={handleBack}>
@@ -650,10 +704,18 @@ export default function App() {
             <>
               <p>Choose your scientific stream:</p>
               <div className="button-group">
-                <button className="btn" onClick={() => { setBranch2("svt"); handleNext(); }}>
+                <button className="btn" onClick={() => { 
+                  setBranch2("svt"); 
+                  setSelectedValues(prev => ({ ...prev, branch2: "SVT" }));
+                  handleNext(); 
+                }}>
                   SVT
                 </button>
-                <button className="btn" onClick={() => { setBranch2("pc"); handleNext(); }}>
+                <button className="btn" onClick={() => { 
+                  setBranch2("pc"); 
+                  setSelectedValues(prev => ({ ...prev, branch2: "PC" }));
+                  handleNext(); 
+                }}>
                   PC
                 </button>
               </div>
@@ -662,10 +724,18 @@ export default function App() {
             <>
               <p>Choose your literature stream:</p>
               <div className="button-group">
-                <button className="btn" onClick={() => { setBranch2("lettres"); handleNext(); }}>
+                <button className="btn" onClick={() => { 
+                  setBranch2("lettres"); 
+                  setSelectedValues(prev => ({ ...prev, branch2: "Lettres" }));
+                  handleNext(); 
+                }}>
                   Lettres
                 </button>
-                <button className="btn" onClick={() => { setBranch2("science humain"); handleNext(); }}>
+                <button className="btn" onClick={() => { 
+                  setBranch2("science humain"); 
+                  setSelectedValues(prev => ({ ...prev, branch2: "Science Humain" }));
+                  handleNext(); 
+                }}>
                   Science Humain
                 </button>
               </div>

@@ -26,6 +26,9 @@
   --btn-back: #707070c4;
   --btn-back-hover: #943636;
   --reset-btn-hover: #32ff3c;
+  --breadcrumb-bg: rgba(0, 0, 0, 0.05);
+  --breadcrumb-completed: rgba(0, 0, 0, 0.08);
+  --breadcrumb-divider: #ddd;
 }
 
 [data-theme="dark"] {
@@ -47,6 +50,9 @@
   --reset-btn-color: #c82333;
   --btn-back-hover: #950606;
   --reset-btn-hover: #0f5212;
+  --breadcrumb-bg: rgba(255, 255, 255, 0.08);
+  --breadcrumb-completed: rgba(255, 255, 255, 0.12);
+  --breadcrumb-divider: #444;  
 }
 
 * {
@@ -83,6 +89,7 @@ body {
     radial-gradient(circle at 90% 80%, rgba(255, 143, 50, 0.05) 0%, transparent 20%);
   background-size: 200% 200%;
   position: relative;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -738,6 +745,8 @@ footer.copyright {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--secondary-color);
 }
+
+
 
 /* Responsive Design */
 @media (max-width: 640px) {
