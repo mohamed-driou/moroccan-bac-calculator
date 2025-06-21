@@ -1,0 +1,265 @@
+/* BacCalculator.module.css */
+
+
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 1.8rem;
+  color: var(--primary-color);
+  margin: 0;
+}
+
+.modeSelector {
+  display: flex;
+  gap: 0.75rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+.error {
+  color: #d42020;
+  background-color: #aa6161;
+  padding: 12px;
+  border-radius: 8px;
+  margin: 16px 0;
+  text-align: center;
+  border: 1px solid var(--breadcrumb-divider);
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modeButton {
+  padding: 0.75rem 1.25rem;
+  border-radius: 20px;
+  background-color: var(--container-bg);
+  border: 2px solid var(--border-color);
+  color: var(--text-color);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* Validation Styles */
+.invalid {
+  border-color: #ff4444 !important;
+  box-shadow: 0 0 0 2px rgba(255, 68, 68, 0.2);
+}
+.fixedValueContainer {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  font-size: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  background-color: var(--fix-value);
+  color: var(--text-color);
+  margin-bottom: 0.5rem;
+  text-align: center;
+  font-weight: 500;
+}
+
+.hintText {
+  color: #666;
+  font-size: 0.85rem;
+  text-align: center;
+  margin-top: -0.5rem;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+.invalid {
+  border-color: #ff4444 !important;
+  box-shadow: 0 0 0 2px rgba(255, 68, 68, 0.2);
+}
+
+.errorText {
+  color: #ff4444;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0;
+}
+
+/* Disabled Button */
+.calculateButton:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.modeButton:hover {
+  background-color: var(--secondary-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.modeButton.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.calculatorForm {
+  background-color: var(--container-bg);
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.inputGroup {
+  margin-bottom: 1.25rem;
+}
+
+.inputGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.inputField {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  font-size: 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  transition: all 0.3s ease;
+}
+
+.inputField:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(52, 123, 255, 0.2);
+}
+
+.calculateButton {
+  width: 100%;
+  padding: 1rem;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 1rem;
+  box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.calculateButton:hover {
+  background-color: var(--secondary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px var(--shadow-color);
+}
+
+.calculateButton:active {
+  transform: translateY(0);
+}
+
+
+.result-container {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: var(--container-bg);
+  border-radius: 20px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  animation: fadeIn 0.4s ease-out;
+}
+
+.resultTitle {
+  color: var(--primary-color);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.result-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  margin: 0.5rem 0;
+}
+
+.backButton {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  cursor: pointer;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  position: relative;
+  top: -60px;
+  transition: all 0.2s ease;
+}
+
+.backButton:hover {
+  color: var(--secondary-color);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .title {
+    font-size: 1.5rem;
+  }
+  
+  .modeSelector {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .modeButton {
+    width: 100%;
+  }
+  
+  .calculatorForm {
+    padding: 1.25rem;
+  }
+  
+  .resultValue {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .title {
+    font-size: 1.3rem;
+  }
+  
+  .inputField {
+    padding: 0.8rem 1rem;
+  }
+  
+  .calculateButton {
+    padding: 0.9rem;
+    font-size: 1rem;
+  }
+}

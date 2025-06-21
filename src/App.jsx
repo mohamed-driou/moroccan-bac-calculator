@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
+import MainMenu from './components/MainMenu/MainMenu';
+import BacFormulaCalculator from './components/BacFormulaCalculator/BacCalculator';
 
 /**
- * Moroccan Baccalaureate Average Calculator
+ * Moroccan Baccalaureate Calculator
  * A React application for calculating baccalaureate scores according to Morocco's official grading system
  * 
  * Copyright (c) 2024 Mohamed Driou
@@ -11,7 +13,7 @@ import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
  */
 
 const APP_VERSION = {
-  version: "1.6.3",
+  version: "1.7.0",
   build: Date.now(),
   lastUpdated: new Date().toLocaleDateString('en-US', {
     year: 'numeric',
@@ -111,7 +113,7 @@ const getSubjectInfo = (branch1, branch2) => ({
   }
 });
 
-export default function App() {
+function BacAverageByStream({ onBack }) {
   const [studentType, setStudentType] = useState(null);
   const [branch1, setBranch1] = useState("");
   const [step, setStep] = useState(0);
@@ -126,7 +128,6 @@ export default function App() {
   const [continuousControlNote, setContinuousControlNote] = useState(null);
   const [regionalExamNote, setRegionalExamNote] = useState(null);
   const [nationalExamNote, setNationalExamNote] = useState(null);
-  const [darkMode, setDarkMode] = useState(false);
   const [selectedValues, setSelectedValues] = useState({});
   
   const breadcrumbSteps = [
@@ -137,23 +138,6 @@ export default function App() {
     { label: 'National Exam', valueKey: null },
     ...(studentType === 'regular' ? [{ label: 'Controls', valueKey: null }] : [])
   ];
-
-  useEffect(() => {
-    const savedMode = localStorage.getItem('darkMode');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (savedMode === 'true' || (!savedMode && systemPrefersDark)) {
-      setDarkMode(true);
-      document.body.setAttribute('data-theme', 'dark');
-    }
-  }, []);
-
-  const toggleDarkMode = () => {
-    const newMode = !darkMode;
-    setDarkMode(newMode);
-    document.body.setAttribute('data-theme', newMode ? 'dark' : 'light');
-    localStorage.setItem('darkMode', newMode);
-  };
 
   const subjectInfo = getSubjectInfo(branch1, branch2);
 
@@ -209,42 +193,33 @@ export default function App() {
     setSelectedValues({});
   };
 
-const validateInputs = () => {
-  const requiredFields = [];
-  
-  // Common required fields for both student types
-  if (branch1 === "science") {
-    requiredFields.push("fr", "hg", "islamic", "ar", "math");
-    if (branch2 === "svt") requiredFields.push("svt");
-    if (branch2 === "pc") requiredFields.push("pc");
-    requiredFields.push("philo", "en");
-  } else if (branch1 === "adab") {
-    requiredFields.push("fr", "islamic", "math", "ar", "en", "hg", "philo");
-  }
-
-  // Only check for sport if independent candidate AND hasSport is true
-  if (studentType === "independent" && hasSport) {
-    requiredFields.push("sport");
-  }
-
-  // Only check for controls if regular student
-  if (studentType === "regular" && step === 5) {
-    requiredFields.push("s1", "s2");
-  }
-  
-  return requiredFields.every(field => {
-    const value = inputs[field];
-    return value !== undefined && value !== "" && !isNaN(value) && parseFloat(value) >= 0 && parseFloat(value) <= 20;
-  });
-};
-
-  const calcAverage = () => {
-    if (studentType === "regular" && inputs.sport) {
-      const newInputs = {...inputs};
-      delete newInputs.sport;
-      setInputs(newInputs);
+  const validateInputs = () => {
+    const requiredFields = [];
+    
+    if (branch1 === "science") {
+      requiredFields.push("fr", "hg", "islamic", "ar", "math");
+      if (branch2 === "svt") requiredFields.push("svt");
+      if (branch2 === "pc") requiredFields.push("pc");
+      requiredFields.push("philo", "en");
+    } else if (branch1 === "adab") {
+      requiredFields.push("fr", "islamic", "math", "ar", "en", "hg", "philo");
     }
 
+    if (studentType === "independent" && hasSport) {
+      requiredFields.push("sport");
+    }
+
+    if (studentType === "regular" && step === 5) {
+      requiredFields.push("s1", "s2");
+    }
+    
+    return requiredFields.every(field => {
+      const value = inputs[field];
+      return value !== undefined && value !== "" && !isNaN(value) && parseFloat(value) >= 0 && parseFloat(value) <= 20;
+    });
+  };
+
+  const calcAverage = () => {
     if (!validateInputs()) {
       alert("Please fill all required fields with valid grades (0-20)");
       return;
@@ -487,7 +462,7 @@ const validateInputs = () => {
 
   if (showResults) {
     return (
-      <div className="container">
+      <div className="stream-view">
         <div className="results-screen">
           <h2>YOUR RESULT</h2>
           <div className="final-score">
@@ -540,40 +515,16 @@ const validateInputs = () => {
         </div>
         
         {showBreakdown && <CalculationBreakdownModal />}
-        
-        <footer className="copyright">
-          <p>© 2024 Developed by Mohamed Driou | Moroccan Bac Calculator | MIT Licensed</p>
-          <div className="version-info">
-            <span>v{APP_VERSION.version}</span>
-            <span>•</span>
-            <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">MIT License</a>
-            <span>•</span>
-            <span>Updated: {APP_VERSION.lastUpdated}</span>
-          </div>
-        </footer>
       </div>
     );
   }
 
   return (
-    <div className="container">
-      <div className="toggle-container">
-        <span className="toggle-icon sun-icon">
-          <SunIcon />
-        </span>
-        <label className="theme-toggle">
-          <input 
-            type="checkbox" 
-            checked={darkMode}
-            onChange={toggleDarkMode}
-          />
-          <span className="slider"></span>
-        </label>
-        <span className="toggle-icon moon-icon">
-          <MoonIcon />
-        </span>
-      </div>
-
+    <div className="stream-view">
+      <button onClick={onBack} className="back-button">
+        ← Back to Menu
+      </button>
+      
       <Breadcrumbs 
         steps={breadcrumbSteps} 
         currentStep={step} 
@@ -598,7 +549,7 @@ const validateInputs = () => {
         ))}
       </div>
       
-      <h1>Baccalaureate Average Calculator</h1>
+      <h1>Bac Average by Stream</h1>
 
       {step === 0 && (
         <div className="step-content">
@@ -802,8 +753,66 @@ const validateInputs = () => {
         </div>
       )}
     
+
+    </div>
+  );
+}
+
+export default function App() {
+  const [darkMode, setDarkMode] = useState(false);
+  const [currentView, setCurrentView] = useState('menu');
+
+  useEffect(() => {
+    const savedMode = localStorage.getItem('darkMode');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedMode === 'true' || (!savedMode && systemPrefersDark)) {
+      setDarkMode(true);
+      document.body.setAttribute('data-theme', 'dark');
+    }
+  }, []);
+
+  const toggleDarkMode = () => {
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    document.body.setAttribute('data-theme', newMode ? 'dark' : 'light');
+    localStorage.setItem('darkMode', newMode);
+  };
+
+  const renderCurrentView = () => {
+    switch(currentView) {
+      case 'stream':
+        return <BacAverageByStream onBack={() => setCurrentView('menu')} />;
+      case 'formula':
+        return <BacFormulaCalculator onBack={() => setCurrentView('menu')} />;
+      default:
+        return <MainMenu onSelectCalculator={(type) => setCurrentView(type)} />;
+    }
+  };
+
+  return (
+    <div className="container">
+      <div className="toggle-container">
+        <span className="toggle-icon sun-icon">
+          <SunIcon />
+        </span>
+        <label className="theme-toggle">
+          <input 
+            type="checkbox" 
+            checked={darkMode}
+            onChange={toggleDarkMode}
+          />
+          <span className="slider"></span>
+        </label>
+        <span className="toggle-icon moon-icon">
+          <MoonIcon />
+        </span>
+      </div>
+
+      {renderCurrentView()}
+
       <footer className="copyright">
-        <p>© 2024 Developed by Mohamed Driou | Moroccan Bac Calculator | MIT Licensed</p>
+        <p>© 2024 Developed by Mohamed Driou | MOROCCAN BAC CALCULATOR | MIT Licensed</p>
         <div className="version-info">
           <span>v{APP_VERSION.version}</span>
           <span>•</span>
