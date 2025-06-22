@@ -69,7 +69,7 @@ const BacCalculator = ({ onBack }) => {
             setError('');
           }}
         >
-          Calculate Average
+          Calculate Bac Average
         </button>
         <button
           className={`${styles.modeButton} ${mode === 'needed' ? styles.active : ''}`}
@@ -79,7 +79,7 @@ const BacCalculator = ({ onBack }) => {
             setError('');
           }}
         >
-          Score Needed
+          Needed Marks (national exam)
         </button>
         <button
           className={`${styles.modeButton} ${mode === 'minimum' ? styles.active : ''}`}
@@ -89,7 +89,7 @@ const BacCalculator = ({ onBack }) => {
             setError('');
           }}
         >
-          Minimum Score
+          Average Required to Pass
         </button>
       </div>
 

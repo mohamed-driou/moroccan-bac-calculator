@@ -23,6 +23,8 @@
   background-color: var(--breadcrumb-bg, rgba(0, 0, 0, 0.05));
   transition: all 0.3s ease;
   white-space: nowrap;
+  position: relative;
+  top: -80px;
   border: 1px solid transparent;
 }
 
@@ -55,7 +57,7 @@
   font-size: 0.9rem;
   font-weight: 300;
   position: relative;
-  top: -0.5px;
+  top: -80px;
 }
 
 /* Dark mode specific styles */

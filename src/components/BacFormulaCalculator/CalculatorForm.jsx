@@ -26,7 +26,7 @@ const CalculatorForm = ({ mode, inputs, setInputs, calculate }) => {
     <div className={styles.calculatorForm}>
       {/* Regional Exam (25%) */}
       <div className={styles.inputGroup}>
-        <label>Regional Exam Score (25%)</label>
+        <label>Regional Exam (25%) :</label>
         <input
           type="text"
           inputMode="decimal"
@@ -44,7 +44,7 @@ const CalculatorForm = ({ mode, inputs, setInputs, calculate }) => {
 
       {/* Continuous Assessment (25%) */}
       <div className={styles.inputGroup}>
-        <label>Continuous Assessment (25%)</label>
+        <label>Continuous Assessment (25%) :</label>
         <input
           type="text"
           inputMode="decimal"
@@ -63,7 +63,7 @@ const CalculatorForm = ({ mode, inputs, setInputs, calculate }) => {
       {/* Conditional Fields */}
       {mode === 'average' && (
         <div className={styles.inputGroup}>
-          <label>National Exam Score (50%)</label>
+          <label>National Exam (50%) :</label>
           <input
             type="text"
             inputMode="decimal"
@@ -82,7 +82,7 @@ const CalculatorForm = ({ mode, inputs, setInputs, calculate }) => {
 
       {mode === 'needed' && (
         <div className={styles.inputGroup}>
-          <label>Target Bac Average</label>
+          <label>Target Bac Average :</label>
           <input
             type="text"
             inputMode="decimal"
@@ -101,7 +101,7 @@ const CalculatorForm = ({ mode, inputs, setInputs, calculate }) => {
 
       {mode === 'minimum' && (
         <div className={styles.inputGroup}>
-          <label>Baccalaureate Average (Fixed)</label>
+          <label>Baccalaureate Average (Fixed) (50%)</label>
           <div className={styles.fixedValueContainer}>
             10.00/20
           </div>

@@ -7,9 +7,9 @@ const ResultDisplay = ({ result }) => {
       case 'average':
         return `Bac Average: ${result.value}/20`;
       case 'needed':
-        return `Required National Exam Score: ${result.value}/20`;
+        return `Required National Exam mark: ${result.value}/20`;
       case 'minimum':
-        return `Minimum National Exam Score: ${result.value}/20`;
+        return `Minimum National Exam mark: ${result.value}/20`;
       default:
         return '';
     }
