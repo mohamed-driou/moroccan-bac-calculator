@@ -879,6 +879,7 @@ input:invalid {
   margin-top: 1.5rem;
 }
 
+
 .sport-question p {
   font-weight: bold;
   margin-bottom: 0.75rem;
@@ -904,6 +905,72 @@ input:invalid {
 }
 
 .question-box.sport-question .btn.btn-no:hover {
+  background-color: #d32f2f !important;
+}
+
+.law-question {
+  margin-top: 1.5rem;
+}
+
+
+.law-question p {
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.law-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.question-box.law-question .btn.btn-yes {
+  background-color: var(--success-color) !important;
+}
+
+.question-box.law-question .btn.btn-yes:hover {
+  background-color: #3e8e41 !important;
+}
+
+.question-box.law-question .btn.btn-no {
+  background-color: var(--error-color) !important;
+}
+
+.question-box.law-question .btn.btn-no:hover {
+  background-color: #d32f2f !important;
+}
+
+.mis-question {
+  margin-top: 1.5rem;
+}
+
+
+.mis-question p {
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.mis-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.question-box.mis-question .btn.btn-yes {
+  background-color: var(--success-color) !important;
+}
+
+.question-box.mis-question .btn.btn-yes:hover {
+  background-color: #3e8e41 !important;
+}
+
+.question-box.mis-question .btn.btn-no {
+  background-color: var(--error-color) !important;
+}
+
+.question-box.mis-question .btn.btn-no:hover {
   background-color: #d32f2f !important;
 }
 
