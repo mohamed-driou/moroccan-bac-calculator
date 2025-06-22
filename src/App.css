@@ -995,7 +995,40 @@ footer.copyright {
   background: var(--secondary-color);
 }
 
+.translation-question {
+  margin-top: 1.5rem;
+  background-color: var(--progress-bg);
+  padding: 1.25rem;
+  border-radius: 15px;
+}
 
+.translation-question p {
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.translation-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.question-box.translation-question .btn.btn-yes {
+  background-color: var(--success-color) !important;
+}
+
+.question-box.translation-question .btn.btn-yes:hover {
+  background-color: #3e8e41 !important;
+}
+
+.question-box.translation-question .btn.btn-no {
+  background-color: var(--error-color) !important;
+}
+
+.question-box.translation-question .btn.btn-no:hover {
+  background-color: #d32f2f !important;
+}
 
 /* Responsive Design */
 @media (max-width: 640px) {
