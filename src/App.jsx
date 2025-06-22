@@ -13,7 +13,7 @@ import BacFormulaCalculator from './components/BacFormulaCalculator/BacCalculato
  */
 
 const APP_VERSION = {
-  version: "1.8.0",
+  version: "1.8.1",
   build: Date.now(),
   lastUpdated: new Date().toLocaleDateString('en-US', {
     year: 'numeric',
@@ -120,16 +120,16 @@ const getSubjectInfo = (branch1, branch2) => ({
     description: "Management Information Systems exam"
   },
   accounting: {
-    coefficient: 6,
+    coefficient: branch2 === "economic_sciences" ? 4 : 6,
     description: "Accounting and Financial Mathematics exam"
   },
-  economics: {
-    coefficient: 6,
-    description: "Economics and Business Organization exam"
-  },
   general_economics: {
-    coefficient: 3,
+    coefficient: branch2 === "economic_sciences" ? 6 : 3,
     description: "General Economics and Statistics exam"
+  },
+  economics: {
+    coefficient: branch2 === "economic_sciences" ? 3 : 6,
+    description: "Economics and Business Organization exam"
   },
   law: {
     coefficient: 1,
@@ -394,14 +394,24 @@ function BacAverageByStream({ onBack }) {
             details: `(AR:${parsedInputs.ar}×${coef.ar} + EN:${parsedInputs.en}×${coef.en} + HG:${parsedInputs.hg}×${coef.hg} + PHILO:${parsedInputs.philo}×${coef.philo}) / ${nationalCoefSum} = ${nationalAvg.toFixed(2)} × 50%`
           });
         } else if (branch1 === "economics") {
-          const coef = {
-            math: 4,
-            accounting: 6,
-            general_economics: 3,
-            economics: 6,
-            philo: 2,
-            en: 2
-          };
+          const coef = branch2 === "accounting" 
+            ? { // Accounting Management Sciences coefficients
+                math: 4,
+                accounting: 6,
+                general_economics: 3,
+                economics: 6,
+                philo: 2,
+                en: 2
+              }
+            : { // Economic Sciences coefficients
+                math: 4,
+                accounting: 4,
+                general_economics: 6,
+                economics: 3,
+                philo: 2,
+                en: 2
+              };
+          
           const nationalTotal = parsedInputs.math * coef.math + 
                               parsedInputs.accounting * coef.accounting + 
                               parsedInputs.general_economics * coef.general_economics + 
@@ -411,10 +421,11 @@ function BacAverageByStream({ onBack }) {
           const nationalCoefSum = Object.values(coef).reduce((a, b) => a + b);
           nationalAvg = nationalTotal / nationalCoefSum;
           nationalExam = nationalAvg * 0.50;
+          
           steps.push({
             title: "National Exam (50%)",
             value: nationalExam.toFixed(2),
-            details: `(MATH:${parsedInputs.math}×4 + ACCOUNT:${parsedInputs.accounting}×6 + GEN_ECON:${parsedInputs.general_economics}×3 + ECON:${parsedInputs.economics}×6 + PHILO:${parsedInputs.philo}×2 + EN:${parsedInputs.en}×2) / ${nationalCoefSum} = ${nationalAvg.toFixed(2)} × 50%`
+            details: `(MATH:${parsedInputs.math}×${coef.math} + ACCOUNT:${parsedInputs.accounting}×${coef.accounting} + GEN_ECON:${parsedInputs.general_economics}×${coef.general_economics} + ECON:${parsedInputs.economics}×${coef.economics} + PHILO:${parsedInputs.philo}×${coef.philo} + EN:${parsedInputs.en}×${coef.en}) / ${nationalCoefSum} = ${nationalAvg.toFixed(2)} × 50%`
           });
         }
         setNationalExamNote(nationalAvg.toFixed(2));
@@ -507,14 +518,24 @@ function BacAverageByStream({ onBack }) {
                          parsedInputs.hg * coef.hg + parsedInputs.philo * coef.philo;
           nationalCoefSum = Object.values(coef).reduce((a, b) => a + b);
         } else if (branch1 === "economics") {
-          const coef = {
-            math: 4,
-            accounting: 6,
-            general_economics: 3,
-            economics: 6,
-            philo: 2,
-            en: 2
-          };
+          const coef = branch2 === "accounting" 
+            ? { // Accounting Management Sciences coefficients
+                math: 4,
+                accounting: 6,
+                general_economics: 3,
+                economics: 6,
+                philo: 2,
+                en: 2
+              }
+            : { // Economic Sciences coefficients
+                math: 4,
+                accounting: 4,
+                general_economics: 6,
+                economics: 3,
+                philo: 2,
+                en: 2
+              };
+          
           nationalTotal = parsedInputs.math * coef.math + 
                          parsedInputs.accounting * coef.accounting + 
                          parsedInputs.general_economics * coef.general_economics + 
@@ -548,7 +569,7 @@ function BacAverageByStream({ onBack }) {
               ? `(SVT:${parsedInputs.svt}×${branch2 === "svt" ? 7 : 5} + MATH:${parsedInputs.math}×7 + PC:${parsedInputs.pc}×${branch2 === "pc" ? 7 : 5} + PHILO:${parsedInputs.philo}×2 + EN:${parsedInputs.en}×2) / ${nationalCoefSum}`
               : branch1 === "adab"
                 ? `(AR:${parsedInputs.ar}×${branch2 === "lettres" ? 4 : 3} + EN:${parsedInputs.en}×${branch2 === "lettres" ? 4 : 3} + HG:${parsedInputs.hg}×${branch2 === "lettres" ? 3 : 4} + PHILO:${parsedInputs.philo}×${branch2 === "lettres" ? 3 : 4}) / ${nationalCoefSum}`
-                : `(MATH:${parsedInputs.math}×4 + ACCOUNT:${parsedInputs.accounting}×6 + GEN_ECON:${parsedInputs.general_economics}×3 + ECON:${parsedInputs.economics}×6 + PHILO:${parsedInputs.philo}×2 + EN:${parsedInputs.en}×2) / ${nationalCoefSum}`
+                : `(MATH:${parsedInputs.math}×4 + ACCOUNT:${parsedInputs.accounting}×${branch2 === "accounting" ? 6 : 4} + GEN_ECON:${parsedInputs.general_economics}×${branch2 === "accounting" ? 3 : 6} + ECON:${parsedInputs.economics}×${branch2 === "accounting" ? 6 : 3} + PHILO:${parsedInputs.philo}×2 + EN:${parsedInputs.en}×2) / ${nationalCoefSum}`
           },
           {
             title: "Weighted Final Average",
@@ -696,7 +717,8 @@ function BacAverageByStream({ onBack }) {
                   branch2 === "pc" ? "PC" : 
                   branch2 === "lettres" ? "Lettres" : 
                   branch2 === "science humain" ? "Science Humain" :
-                  branch2 === "accounting" ? "Accounting Management Sciences" : ""
+                  branch2 === "accounting" ? "Accounting Management Sciences" :
+                  branch2 === "economic_sciences" ? "Economic Sciences" : ""
         }}
       />
 
@@ -1099,6 +1121,13 @@ function BacAverageByStream({ onBack }) {
               handleNext(); 
             }}>
               Accounting Management Sciences
+            </button>
+            <button className="btn" onClick={() => { 
+              setBranch2("economic_sciences"); 
+              setSelectedValues(prev => ({ ...prev, branch2: "Economic Sciences" }));
+              handleNext(); 
+            }}>
+              Economic Sciences
             </button>
             <button className="btn back" onClick={handleBack}>
               Back
