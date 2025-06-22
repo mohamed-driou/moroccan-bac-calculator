@@ -13,7 +13,7 @@ import BacFormulaCalculator from './components/BacFormulaCalculator/BacCalculato
  */
 
 const APP_VERSION = {
-  version: "1.7.0",
+  version: "1.7.1",
   build: Date.now(),
   lastUpdated: new Date().toLocaleDateString('en-US', {
     year: 'numeric',
