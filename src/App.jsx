@@ -13,7 +13,7 @@ import BacFormulaCalculator from './components/BacFormulaCalculator/BacCalculato
  */
 
 const APP_VERSION = {
-  version: "1.9.1",
+  version: "1.9.2",
   build: Date.now(),
   lastUpdated: new Date().toLocaleDateString('en-US', {
     year: 'numeric',
@@ -67,11 +67,12 @@ const getSubjectInfo = (branch1, branch2) => ({
     coefficient: branch1 === "economics" ? 3 : 
                 branch1 === "math" ? 4 : 
                 branch1 === "science" ? 4 : 
+                branch1 === "science_tech" ? 4 :
                 (branch2 === "lettres" ? 4 : 3),
     description: "French language exam"
   },
   hg: {
-    coefficient: branch1 === "science" || branch1 === "math" ? 2 : 
+    coefficient: branch1 === "science" || branch1 === "math" || branch1 === "science_tech" ? 2 : 
                 branch1 === "economics" ? 2 : 
                 (branch2 === "lettres" ? 3 : 4),
     description: "History & Geography exam"
@@ -81,7 +82,7 @@ const getSubjectInfo = (branch1, branch2) => ({
     description: "Islamic education exam"
   },
   ar: {
-    coefficient: branch1 === "science" || branch1 === "math" ? 2 : 
+    coefficient: branch1 === "science" || branch1 === "math" || branch1 === "science_tech" ? 2 : 
                 branch1 === "economics" ? 2 : 
                 (branch2 === "lettres" ? 4 : 3),
     description: "Arabic language exam"
@@ -90,6 +91,7 @@ const getSubjectInfo = (branch1, branch2) => ({
     coefficient: branch1 === "science" ? 7 : 
                 branch1 === "economics" ? 4 : 
                 branch1 === "math" ? 9 : 
+                branch1 === "science_tech" ? 7 :
                 1,
     description: "Mathematics exam"
   },
@@ -102,21 +104,22 @@ const getSubjectInfo = (branch1, branch2) => ({
   pc: {
     coefficient: branch2 === "pc" ? 7 : 
                 branch1 === "math" ? 7 : 
+                branch1 === "science_tech" ? 5 :
                 5,
     description: "Physics-Chemistry exam"
   },
   engineering: {
-    coefficient: branch2 === "math_b" ? 3 : 0,
+    coefficient: branch2 === "math_b" || branch2 === "mechanical_tech" || branch2 === "electrical_tech" ? 8 : 0,
     description: "Engineering Sciences exam"
   },
   philo: {
-    coefficient: branch1 === "science" || branch1 === "math" ? 2 : 
+    coefficient: branch1 === "science" || branch1 === "math" || branch1 === "science_tech" ? 2 : 
                 branch1 === "economics" ? 2 : 
                 (branch2 === "lettres" ? 3 : 4),
     description: "Philosophy exam"
   },
   en: {
-    coefficient: branch1 === "science" || branch1 === "math" ? 2 : 
+    coefficient: branch1 === "science" || branch1 === "math" || branch1 === "science_tech" ? 2 : 
                 branch1 === "economics" ? 2 : 
                 (branch2 === "lettres" ? 4 : 3),
     description: "English language exam"
@@ -183,7 +186,7 @@ function BacAverageByStream({ onBack }) {
     { label: 'Student Type', valueKey: 'studentType' },
     { label: 'Branch', valueKey: 'branch1' },
     { label: 'Regional Exam', valueKey: null },
-    ...(branch1 === 'science' || branch1 === 'economics' || branch1 === 'math' ? 
+    ...(branch1 === 'science' || branch1 === 'economics' || branch1 === 'math' || branch1 === 'science_tech' ? 
       [{ label: 'Stream', valueKey: 'branch2' }] : []),
     { label: 'National Exam', valueKey: null },
     ...(studentType === 'regular' ? [{ label: 'Controls', valueKey: null }] : [])
@@ -204,30 +207,30 @@ function BacAverageByStream({ onBack }) {
   };
 
   const handleNext = () => {
-  if (step === 2 && (branch1 === "economics" || branch1 === "math")) {
-    if (branch1 === "economics") {
-      if (hasMIS === null) {
-        alert("Please answer the Management Information Systems question");
-        return;
+    if (step === 2 && (branch1 === "economics" || branch1 === "math" || branch1 === "science_tech")) {
+      if (branch1 === "economics") {
+        if (hasMIS === null) {
+          alert("Please answer the Management Information Systems question");
+          return;
+        }
+        if (hasLaw === null) {
+          alert("Please answer the Law question");
+          return;
+        }
       }
-      if (hasLaw === null) {
-        alert("Please answer the Law question");
+      if (studentType === "independent" && hasSport === null) {
+        alert("Please answer the Physical Education question");
         return;
       }
     }
-    if (studentType === "independent" && hasSport === null) {
-      alert("Please answer the Physical Education question");
+    if (step === 2 && hasTranslation === null && (branch1 === "science" || branch1 === "adab" || branch1 === "math" || branch1 === "science_tech")) {
+      alert("Please answer the Translation question");
       return;
     }
-  }
-  if (step === 2 && hasTranslation === null && (branch1 === "science" || branch1 === "adab" || branch1 === "math")) {
-    alert("Please answer the Translation question");
-    return;
-  }
-  setStep(prev => prev + 1);
-  setFinalAverage(null);
-  setAdmitted(null);
-};
+    setStep(prev => prev + 1);
+    setFinalAverage(null);
+    setAdmitted(null);
+  };
 
   const handleBack = () => {
     setStep(prev => prev - 1);
@@ -281,23 +284,32 @@ function BacAverageByStream({ onBack }) {
       }
       requiredFields.push("math", "accounting", "general_economics", "economics", "philo", "en");
     } else if (branch1 === "math") {
-    requiredFields.push("ar", "fr", "islamic", "hg");
-    if (hasTranslation === true) {
-      requiredFields.push("translation");
+      requiredFields.push("ar", "fr", "islamic", "hg");
+      if (hasTranslation === true) {
+        requiredFields.push("translation");
+      }
+      if (studentType === "independent" && hasSport === true) {
+        requiredFields.push("sport");
+      }
+      requiredFields.push("math", "pc");
+      if (branch2 === "math_a") {
+        requiredFields.push("svt");
+      } else if (branch2 === "math_b") {
+        requiredFields.push("engineering");
+      }
+      requiredFields.push("philo", "en");
+    } else if (branch1 === "science_tech") {
+      requiredFields.push("ar", "fr", "islamic");
+      if (hasTranslation === true) {
+        requiredFields.push("translation");
+      }
+      if (studentType === "independent" && hasSport === true) {
+        requiredFields.push("sport");
+      }
+      requiredFields.push("math", "pc", "engineering", "philo", "en");
     }
-    if (studentType === "independent" && hasSport === true) {
-      requiredFields.push("sport");
-    }
-    requiredFields.push("math", "pc");
-    if (branch2 === "math_a") {
-      requiredFields.push("svt");
-    } else if (branch2 === "math_b") {
-      requiredFields.push("engineering");
-    }
-    requiredFields.push("philo", "en");
-  }
 
-    if (studentType === "regular" && step === (branch1 === "math" ? 4 : 5)) {
+    if (studentType === "regular" && step === (branch1 === "math" || branch1 === "science_tech" ? 4 : 5)) {
       requiredFields.push("s1", "s2");
     }
     
@@ -393,34 +405,56 @@ function BacAverageByStream({ onBack }) {
             details: details
           });
         } else if (branch1 === "math") {
-  let regionalTotal = parsedInputs.ar * 2 + parsedInputs.fr * 4 + 
-                     parsedInputs.islamic * 2 + parsedInputs.hg * 2;
-  let regionalCoefSum = 2 + 4 + 2 + 2;
-  
-  if (hasTranslation === true) {
-    regionalTotal += parsedInputs.translation * 2;
-    regionalCoefSum += 2;
-  }
-  
-  if (studentType === "independent" && hasSport === true) {
-    regionalTotal += parsedInputs.sport * 1;
-    regionalCoefSum += 1;
-  }
+          let regionalTotal = parsedInputs.ar * 2 + parsedInputs.fr * 4 + 
+                            parsedInputs.islamic * 2 + parsedInputs.hg * 2;
+          let regionalCoefSum = 2 + 4 + 2 + 2;
+          
+          if (hasTranslation === true) {
+            regionalTotal += parsedInputs.translation * 2;
+            regionalCoefSum += 2;
+          }
+          
+          if (studentType === "independent" && hasSport === true) {
+            regionalTotal += parsedInputs.sport * 1;
+            regionalCoefSum += 1;
+          }
 
-  regionalAvg = regionalTotal / regionalCoefSum;
-  regionalExam = regionalAvg * 0.25;
-  
-  let details = `(AR:${parsedInputs.ar}×2 + FR:${parsedInputs.fr}×4 + ISL:${parsedInputs.islamic}×2 + HG:${parsedInputs.hg}×2`;
-  if (hasTranslation === true) details += ` + TRANS:${parsedInputs.translation}×2`;
-  if (studentType === "independent" && hasSport === true) details += ` + SPORT:${parsedInputs.sport}×1`;
-  details += `) / ${regionalCoefSum} = ${regionalAvg.toFixed(2)} × 25%`;
-  
-  steps.push({
-    title: "Regional Exam (25%)",
-    value: regionalExam.toFixed(2),
-    details: details
-  });
-}
+          regionalAvg = regionalTotal / regionalCoefSum;
+          regionalExam = regionalAvg * 0.25;
+          
+          let details = `(AR:${parsedInputs.ar}×2 + FR:${parsedInputs.fr}×4 + ISL:${parsedInputs.islamic}×2 + HG:${parsedInputs.hg}×2`;
+          if (hasTranslation === true) details += ` + TRANS:${parsedInputs.translation}×2`;
+          if (studentType === "independent" && hasSport === true) details += ` + SPORT:${parsedInputs.sport}×1`;
+          details += `) / ${regionalCoefSum} = ${regionalAvg.toFixed(2)} × 25%`;
+          
+          steps.push({
+            title: "Regional Exam (25%)",
+            value: regionalExam.toFixed(2),
+            details: details
+          });
+        } else if (branch1 === "science_tech") {
+          let regionalTotal = parsedInputs.ar * 2 + parsedInputs.fr * 4 + 
+                            parsedInputs.islamic * 2;
+          let regionalCoefSum = 2 + 4 + 2;
+          
+          if (hasTranslation === true) {
+            regionalTotal += parsedInputs.translation * 2;
+            regionalCoefSum += 2;
+          }
+
+          regionalAvg = regionalTotal / regionalCoefSum;
+          regionalExam = regionalAvg * 0.25;
+          
+          let details = `(AR:${parsedInputs.ar}×2 + FR:${parsedInputs.fr}×4 + ISL:${parsedInputs.islamic}×2`;
+          if (hasTranslation === true) details += ` + TRANS:${parsedInputs.translation}×2`;
+          details += `) / ${regionalCoefSum} = ${regionalAvg.toFixed(2)} × 25%`;
+          
+          steps.push({
+            title: "Regional Exam (25%)",
+            value: regionalExam.toFixed(2),
+            details: details
+          });
+        }
         setRegionalExamNote(regionalAvg.toFixed(2));
 
         // National Exam (50%)
@@ -521,6 +555,29 @@ function BacAverageByStream({ onBack }) {
             value: nationalExam.toFixed(2),
             details: `(MATH:${parsedInputs.math}×${coef.math} + PC:${parsedInputs.pc}×${coef.pc} + ${branch2 === "math_a" ? `SVT:${parsedInputs.svt}×${coef.svt}` : `ENG:${parsedInputs.engineering}×${coef.engineering}`} + PHILO:${parsedInputs.philo}×${coef.philo} + EN:${parsedInputs.en}×${coef.en}) / ${nationalCoefSum} = ${nationalAvg.toFixed(2)} × 50%`
           });
+        } else if (branch1 === "science_tech") {
+          const coef = {
+            math: 7,
+            pc: 5,
+            engineering: 8,
+            philo: 2,
+            en: 2
+          };
+          
+          const nationalTotal = parsedInputs.math * coef.math + 
+                              parsedInputs.pc * coef.pc + 
+                              parsedInputs.engineering * coef.engineering + 
+                              parsedInputs.philo * coef.philo + 
+                              parsedInputs.en * coef.en;
+          const nationalCoefSum = Object.values(coef).reduce((a, b) => a + b);
+          nationalAvg = nationalTotal / nationalCoefSum;
+          nationalExam = nationalAvg * 0.50;
+          
+          steps.push({
+            title: "National Exam (50%)",
+            value: nationalExam.toFixed(2),
+            details: `(MATH:${parsedInputs.math}×7 + PC:${parsedInputs.pc}×5 + ENG:${parsedInputs.engineering}×8 + PHILO:${parsedInputs.philo}×2 + EN:${parsedInputs.en}×2) / ${nationalCoefSum} = ${nationalAvg.toFixed(2)} × 50%`
+          });
         }
         setNationalExamNote(nationalAvg.toFixed(2));
 
@@ -587,6 +644,20 @@ function BacAverageByStream({ onBack }) {
           regionalTotal = parsedInputs.ar * 2 + parsedInputs.fr * 4 + 
                          parsedInputs.islamic * 2 + parsedInputs.hg * 2;
           regionalCoefSum = 2 + 4 + 2 + 2;
+          
+          if (hasTranslation === true) {
+            regionalTotal += parsedInputs.translation * 2;
+            regionalCoefSum += 2;
+          }
+          
+          if (hasSport === true) {
+            regionalTotal += parsedInputs.sport * 1;
+            regionalCoefSum += 1;
+          }
+        } else if (branch1 === "science_tech") {
+          regionalTotal = parsedInputs.ar * 2 + parsedInputs.fr * 4 + 
+                         parsedInputs.islamic * 2;
+          regionalCoefSum = 2 + 4 + 2;
           
           if (hasTranslation === true) {
             regionalTotal += parsedInputs.translation * 2;
@@ -674,6 +745,21 @@ function BacAverageByStream({ onBack }) {
                          parsedInputs.philo * coef.philo + 
                          parsedInputs.en * coef.en;
           nationalCoefSum = Object.values(coef).reduce((a, b) => a + b);
+        } else if (branch1 === "science_tech") {
+          const coef = {
+            math: 7,
+            pc: 5,
+            engineering: 8,
+            philo: 2,
+            en: 2
+          };
+          
+          nationalTotal = parsedInputs.math * coef.math + 
+                         parsedInputs.pc * coef.pc + 
+                         parsedInputs.engineering * coef.engineering + 
+                         parsedInputs.philo * coef.philo + 
+                         parsedInputs.en * coef.en;
+          nationalCoefSum = Object.values(coef).reduce((a, b) => a + b);
         }
         
         const nationalAvg = nationalTotal / nationalCoefSum;
@@ -693,7 +779,9 @@ function BacAverageByStream({ onBack }) {
                 ? `(FR:${parsedInputs.fr}×4 + ISL:${parsedInputs.islamic}×2 + MATH:${parsedInputs.math}×1${hasSport ? ` + SPORT:${parsedInputs.sport}×1` : ''}${hasTranslation ? ` + TRANS:${parsedInputs.translation}×2` : ''}) / ${regionalCoefSum}`
                 : branch1 === "economics"
                   ? `(AR:${parsedInputs.ar}×2 + FR:${parsedInputs.fr}×3 + ISL:${parsedInputs.islamic}×2 + HG:${parsedInputs.hg}×2${hasMIS ? ` + MIS:${parsedInputs.mis}×1` : ''}${hasLaw ? ` + LAW:${parsedInputs.law}×1` : ''}${hasSport ? ` + SPORT:${parsedInputs.sport}×1` : ''}) / ${regionalCoefSum}`
-                  : `(AR:${parsedInputs.ar}×2 + FR:${parsedInputs.fr}×4 + ISL:${parsedInputs.islamic}×2 + HG:${parsedInputs.hg}×2${hasTranslation ? ` + TRANS:${parsedInputs.translation}×2` : ''}${hasSport ? ` + SPORT:${parsedInputs.sport}×1` : ''}) / ${regionalCoefSum}`
+                  : branch1 === "math"
+                    ? `(AR:${parsedInputs.ar}×2 + FR:${parsedInputs.fr}×4 + ISL:${parsedInputs.islamic}×2 + HG:${parsedInputs.hg}×2${hasTranslation ? ` + TRANS:${parsedInputs.translation}×2` : ''}${hasSport ? ` + SPORT:${parsedInputs.sport}×1` : ''}) / ${regionalCoefSum}`
+                    : `(AR:${parsedInputs.ar}×2 + FR:${parsedInputs.fr}×4 + ISL:${parsedInputs.islamic}×2${hasTranslation ? ` + TRANS:${parsedInputs.translation}×2` : ''}${hasSport ? ` + SPORT:${parsedInputs.sport}×1` : ''}) / ${regionalCoefSum}`
           },
           {
             title: "National Exam (14/22)",
@@ -704,7 +792,9 @@ function BacAverageByStream({ onBack }) {
                 ? `(AR:${parsedInputs.ar}×${branch2 === "lettres" ? 4 : 3} + EN:${parsedInputs.en}×${branch2 === "lettres" ? 4 : 3} + HG:${parsedInputs.hg}×${branch2 === "lettres" ? 3 : 4} + PHILO:${parsedInputs.philo}×${branch2 === "lettres" ? 3 : 4}) / ${nationalCoefSum}`
                 : branch1 === "economics"
                   ? `(MATH:${parsedInputs.math}×4 + ACCOUNT:${parsedInputs.accounting}×${branch2 === "accounting" ? 6 : 4} + GEN_ECON:${parsedInputs.general_economics}×${branch2 === "accounting" ? 3 : 6} + ECON:${parsedInputs.economics}×${branch2 === "accounting" ? 6 : 3} + PHILO:${parsedInputs.philo}×2 + EN:${parsedInputs.en}×2) / ${nationalCoefSum}`
-                  : `(MATH:${parsedInputs.math}×9 + PC:${parsedInputs.pc}×7 + ${branch2 === "math_a" ? `SVT:${parsedInputs.svt}×3` : `ENG:${parsedInputs.engineering}×3`} + PHILO:${parsedInputs.philo}×2 + EN:${parsedInputs.en}×2) / ${nationalCoefSum}`
+                  : branch1 === "math"
+                    ? `(MATH:${parsedInputs.math}×9 + PC:${parsedInputs.pc}×7 + ${branch2 === "math_a" ? `SVT:${parsedInputs.svt}×3` : `ENG:${parsedInputs.engineering}×3`} + PHILO:${parsedInputs.philo}×2 + EN:${parsedInputs.en}×2) / ${nationalCoefSum}`
+                    : `(MATH:${parsedInputs.math}×7 + PC:${parsedInputs.pc}×5 + ENG:${parsedInputs.engineering}×8 + PHILO:${parsedInputs.philo}×2 + EN:${parsedInputs.en}×2) / ${nationalCoefSum}`
           },
           {
             title: "Weighted Final Average",
@@ -848,7 +938,8 @@ function BacAverageByStream({ onBack }) {
           branch1: branch1 === "science" ? "Science" : 
                   branch1 === "adab" ? "Adab" : 
                   branch1 === "economics" ? "Economics & Management" :
-                  branch1 === "math" ? "Mathematical Sciences" : "",
+                  branch1 === "math" ? "Mathematical Sciences" :
+                  branch1 === "science_tech" ? "Science and Technology" : "",
           branch2: branch2 === "svt" ? "SVT" : 
                   branch2 === "pc" ? "PC" : 
                   branch2 === "lettres" ? "Lettres" : 
@@ -856,12 +947,14 @@ function BacAverageByStream({ onBack }) {
                   branch2 === "accounting" ? "Accounting Management Sciences" :
                   branch2 === "economic_sciences" ? "Economic Sciences" :
                   branch2 === "math_a" ? 'Mathematical Sciences "A"' :
-                  branch2 === "math_b" ? 'Mathematical Sciences "B"' : ""
+                  branch2 === "math_b" ? 'Mathematical Sciences "B"' :
+                  branch2 === "mechanical_tech" ? "Mechanical Science and Technology" :
+                  branch2 === "electrical_tech" ? "Electrical Science and Technology" : ""
         }}
       />
 
       <div className="progress-bar">
-        {[...Array(studentType === 'regular' ? (branch1 === 'math' ? 5 : 6) : (branch1 === 'math' ? 4 : 5))].map((_, i) => (
+        {[...Array(studentType === 'regular' ? (branch1 === 'math' || branch1 === 'science_tech' ? 5 : 6) : (branch1 === 'math' || branch1 === 'science_tech' ? 4 : 5))].map((_, i) => (
           <div 
             key={i} 
             className={`step-dot ${i <= step ? 'active' : ''}`}
@@ -925,6 +1018,13 @@ function BacAverageByStream({ onBack }) {
               handleNext(); 
             }}>
               Mathematical Sciences
+            </button>
+            <button className="btn" onClick={() => { 
+              setBranch1("science_tech"); 
+              setSelectedValues(prev => ({ ...prev, branch1: "Science and Technology" }));
+              handleNext(); 
+            }}>
+              Science and Technology
             </button>
             <button className="btn back" onClick={handleBack}>
               Back
@@ -1207,85 +1307,165 @@ function BacAverageByStream({ onBack }) {
       )}
 
       {step === 2 && branch1 === "math" && (
-  <div className="step-content">
-    <h2 className="exam-title">Regional Exam</h2>
-    {renderInput("ar", "Arabic")}
-    {renderInput("fr", "French")}
-    {renderInput("islamic", "Islamic")}
-    {renderInput("hg", "History & Geography")}
+        <div className="step-content">
+          <h2 className="exam-title">Regional Exam</h2>
+          {renderInput("ar", "Arabic")}
+          {renderInput("fr", "French")}
+          {renderInput("islamic", "Islamic")}
+          {renderInput("hg", "History & Geography")}
 
-    {/* Translation Question for all students */}
-    {hasTranslation === null && (
-      <div className="question-box translation-question">
-        <p>Do you have Translation?</p>
-        <div className="translation-buttons">
-          <button className="btn btn-yes" onClick={() => setHasTranslation(true)}>Yes</button>
-          <button className="btn btn-no" onClick={() => setHasTranslation(false)}>No</button>
+          {/* Translation Question */}
+          {hasTranslation === null && (
+            <div className="question-box translation-question">
+              <p>Do you have Translation?</p>
+              <div className="translation-buttons">
+                <button className="btn btn-yes" onClick={() => setHasTranslation(true)}>Yes</button>
+                <button className="btn btn-no" onClick={() => setHasTranslation(false)}>No</button>
+              </div>
+            </div>
+          )}
+
+          {/* Show Translation input if answered Yes */}
+          {hasTranslation === true && renderInput("translation", "Translation")}
+
+          {/* Show change answer button if translation answer exists */}
+          {hasTranslation !== null && (
+            <button 
+              className="btn btn-change-answer" 
+              onClick={() => {
+                setHasTranslation(null);
+                setInputs(prev => {
+                  const newInputs = {...prev};
+                  delete newInputs.translation;
+                  return newInputs;
+                });
+              }}
+            >
+              Change Translation Answer
+            </button>
+          )}
+
+          {/* Physical Education Question (only for independent candidates) */}
+          {studentType === "independent" && hasSport === null && (
+            <div className="question-box sport-question">
+              <p>Do you have Physical Education?</p>
+              <div className="sport-buttons">
+                <button className="btn btn-yes" onClick={() => setHasSport(true)}>Yes</button>
+                <button className="btn btn-no" onClick={() => setHasSport(false)}>No</button>
+              </div>
+            </div>
+          )}
+
+          {/* Show Physical Education input if answered Yes */}
+          {studentType === "independent" && hasSport === true && renderInput("sport", "Physical Education")}
+
+          {/* Show change answer button if sport answer exists */}
+          {studentType === "independent" && hasSport !== null && (
+            <button 
+              className="btn btn-change-answer" 
+              onClick={() => {
+                setHasSport(null);
+                setInputs(prev => {
+                  const newInputs = {...prev};
+                  delete newInputs.sport;
+                  return newInputs;
+                });
+              }}
+            >
+              Change Physical Education Answer
+            </button>
+          )}
+
+          <div className="navigation-buttons">
+            <button className="btn back" onClick={handleBack}>
+              Back
+            </button>
+            <button className="btn" onClick={handleNext}>
+              Next
+            </button>
+          </div>
         </div>
-      </div>
-    )}
+      )}
 
-    {/* Show Translation input if answered Yes */}
-    {hasTranslation === true && renderInput("translation", "Translation")}
+      {step === 2 && branch1 === "science_tech" && (
+        <div className="step-content">
+          <h2 className="exam-title">Regional Exam</h2>
+          {renderInput("ar", "Arabic")}
+          {renderInput("fr", "French")}
+          {renderInput("islamic", "Islamic")}
 
-    {/* Show change answer button if translation answer exists */}
-    {hasTranslation !== null && (
-      <button 
-        className="btn btn-change-answer" 
-        onClick={() => {
-          setHasTranslation(null);
-          setInputs(prev => {
-            const newInputs = {...prev};
-            delete newInputs.translation;
-            return newInputs;
-          });
-        }}
-      >
-        Change Translation Answer
-      </button>
-    )}
+          {/* Translation Question */}
+          {hasTranslation === null && (
+            <div className="question-box translation-question">
+              <p>Do you have Translation?</p>
+              <div className="translation-buttons">
+                <button className="btn btn-yes" onClick={() => setHasTranslation(true)}>Yes</button>
+                <button className="btn btn-no" onClick={() => setHasTranslation(false)}>No</button>
+              </div>
+            </div>
+          )}
 
-    {/* Physical Education Question (only for independent candidates) */}
-    {studentType === "independent" && hasSport === null && (
-      <div className="question-box sport-question">
-        <p>Do you have Physical Education?</p>
-        <div className="sport-buttons">
-          <button className="btn btn-yes" onClick={() => setHasSport(true)}>Yes</button>
-          <button className="btn btn-no" onClick={() => setHasSport(false)}>No</button>
+          {/* Show Translation input if answered Yes */}
+          {hasTranslation === true && renderInput("translation", "Translation")}
+
+          {/* Show change answer button if translation answer exists */}
+          {hasTranslation !== null && (
+            <button 
+              className="btn btn-change-answer" 
+              onClick={() => {
+                setHasTranslation(null);
+                setInputs(prev => {
+                  const newInputs = {...prev};
+                  delete newInputs.translation;
+                  return newInputs;
+                });
+              }}
+            >
+              Change Translation Answer
+            </button>
+          )}
+
+          {/* Physical Education Question (only for independent candidates) */}
+          {studentType === "independent" && hasSport === null && (
+            <div className="question-box sport-question">
+              <p>Do you have Physical Education?</p>
+              <div className="sport-buttons">
+                <button className="btn btn-yes" onClick={() => setHasSport(true)}>Yes</button>
+                <button className="btn btn-no" onClick={() => setHasSport(false)}>No</button>
+              </div>
+            </div>
+          )}
+
+          {/* Show Physical Education input if answered Yes */}
+          {studentType === "independent" && hasSport === true && renderInput("sport", "Physical Education")}
+
+          {/* Show change answer button if sport answer exists */}
+          {studentType === "independent" && hasSport !== null && (
+            <button 
+              className="btn btn-change-answer" 
+              onClick={() => {
+                setHasSport(null);
+                setInputs(prev => {
+                  const newInputs = {...prev};
+                  delete newInputs.sport;
+                  return newInputs;
+                });
+              }}
+            >
+              Change Physical Education Answer
+            </button>
+          )}
+
+          <div className="navigation-buttons">
+            <button className="btn back" onClick={handleBack}>
+              Back
+            </button>
+            <button className="btn" onClick={handleNext}>
+              Next
+            </button>
+          </div>
         </div>
-      </div>
-    )}
-
-    {/* Show Physical Education input if answered Yes */}
-    {studentType === "independent" && hasSport === true && renderInput("sport", "Physical Education")}
-
-    {/* Show change answer button if sport answer exists */}
-    {studentType === "independent" && hasSport !== null && (
-      <button 
-        className="btn btn-change-answer" 
-        onClick={() => {
-          setHasSport(null);
-          setInputs(prev => {
-            const newInputs = {...prev};
-            delete newInputs.sport;
-            return newInputs;
-          });
-        }}
-      >
-        Change Physical Education Answer
-      </button>
-    )}
-
-    <div className="navigation-buttons">
-      <button className="btn back" onClick={handleBack}>
-        Back
-      </button>
-      <button className="btn" onClick={handleNext}>
-        Next
-      </button>
-    </div>
-  </div>
-)}
+      )}
 
       {step === 3 && branch1 === "science" && (
         <div className="step-content">
@@ -1379,6 +1559,31 @@ function BacAverageByStream({ onBack }) {
               handleNext(); 
             }}>
               Mathematical Sciences "B"
+            </button>
+            <button className="btn back" onClick={handleBack}>
+              Back
+            </button>
+          </div>
+        </div>
+      )}
+
+      {step === 3 && branch1 === "science_tech" && (
+        <div className="step-content">
+          <p>Choose your Science and Technology stream:</p>
+          <div className="button-group">
+            <button className="btn" onClick={() => { 
+              setBranch2("mechanical_tech"); 
+              setSelectedValues(prev => ({ ...prev, branch2: "Mechanical Science and Technology" }));
+              handleNext(); 
+            }}>
+              Mechanical Science and Technology
+            </button>
+            <button className="btn" onClick={() => { 
+              setBranch2("electrical_tech"); 
+              setSelectedValues(prev => ({ ...prev, branch2: "Electrical Science and Technology" }));
+              handleNext(); 
+            }}>
+              Electrical Science and Technology
             </button>
             <button className="btn back" onClick={handleBack}>
               Back
@@ -1492,7 +1697,33 @@ function BacAverageByStream({ onBack }) {
         </div>
       )}
 
-      {step === 5 && studentType === "regular" && branch1 !== "math" && (
+      {step === 4 && branch1 === "science_tech" && (
+        <div className="step-content">
+          <h2 className="exam-title">National Exam</h2>
+          {renderInput("math", "Mathematics")}
+          {renderInput("pc", "Physics-Chemistry")}
+          {renderInput("engineering", "Engineering Sciences")}
+          {renderInput("philo", "Philosophy")}
+          {renderInput("en", "English")}
+
+          <div className="navigation-buttons">
+            <button className="btn back" onClick={handleBack}>
+              Back
+            </button>
+            {studentType === "independent" ? (
+              <button className="btn" onClick={calcAverage}>
+                Calculate Average
+              </button>
+            ) : (
+              <button className="btn" onClick={handleNext}>
+                Next
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {step === 5 && studentType === "regular" && branch1 !== "math" && branch1 !== "science_tech" && (
         <div className="step-content">
           <h2 className="exam-title">Continuous Controls</h2>
           {renderInput("s1", "Semester 1")}
@@ -1508,7 +1739,7 @@ function BacAverageByStream({ onBack }) {
         </div>
       )}
 
-      {step === 5 && studentType === "regular" && branch1 === "math" && (
+      {step === 5 && studentType === "regular" && (branch1 === "math" || branch1 === "science_tech") && (
         <div className="step-content">
           <h2 className="exam-title">Continuous Controls</h2>
           {renderInput("s1", "Semester 1")}

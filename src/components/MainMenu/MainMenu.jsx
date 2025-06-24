@@ -12,7 +12,7 @@ const MainMenu = ({ onSelectCalculator }) => {
           onClick={() => onSelectCalculator('stream')}
         >
           <h2>Bac Average by Stream</h2>
-          <p>Calculate your average based on your branch (Science/Adab)</p>
+          <p>Calculate your average based on your branch (Science / Letters / Economics / Math / Technology)</p>
         </button>
 
         <button 
