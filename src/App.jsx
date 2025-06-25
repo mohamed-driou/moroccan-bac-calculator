@@ -13,7 +13,7 @@ import BacFormulaCalculator from './components/BacFormulaCalculator/BacCalculato
  */
 
 const APP_VERSION = {
-  version: "1.9.2",
+  version: "1.9.4",
   build: Date.now(),
   lastUpdated: new Date().toLocaleDateString('en-US', {
     year: 'numeric',
@@ -98,6 +98,7 @@ const getSubjectInfo = (branch1, branch2) => ({
   svt: {
     coefficient: branch2 === "svt" ? 7 : 
                 branch2 === "math_a" ? 3 : 
+                branch2 === "agricultural" ? 5 :
                 5,
     description: "Life and Earth Sciences exam"
   },
@@ -107,6 +108,10 @@ const getSubjectInfo = (branch1, branch2) => ({
                 branch1 === "science_tech" ? 5 :
                 5,
     description: "Physics-Chemistry exam"
+  },
+  plant_animal: {
+    coefficient: branch2 === "agricultural" ? 5 : 0,
+    description: "Plant and Animal Sciences exam"
   },
   engineering: {
     coefficient: branch2 === "math_b" || branch2 === "mechanical_tech" || branch2 === "electrical_tech" ? 8 : 0,
@@ -272,6 +277,7 @@ function BacAverageByStream({ onBack }) {
       requiredFields.push("fr", "hg", "islamic", "ar", "math");
       if (branch2 === "svt") requiredFields.push("svt");
       if (branch2 === "pc") requiredFields.push("pc");
+      if (branch2 === "agricultural") requiredFields.push("svt", "plant_animal");
       requiredFields.push("philo", "en");
     } else if (branch1 === "adab") {
       requiredFields.push("fr", "islamic", "math", "ar", "en", "hg", "philo");
@@ -461,21 +467,53 @@ function BacAverageByStream({ onBack }) {
         let nationalExam = 0;
         let nationalAvg = 0;
         if (branch1 === "science") {
-          const coef = {
-            svt: branch2 === "svt" ? 7 : 5,
-            math: 7,
-            pc: branch2 === "pc" ? 7 : 5,
-            philo: 2,
-            en: 2,
-          };
-          const nationalTotal = parsedInputs.svt * coef.svt + parsedInputs.math * coef.math + parsedInputs.pc * coef.pc + parsedInputs.philo * coef.philo + parsedInputs.en * coef.en;
+          let coef;
+          if (branch2 === "svt") {
+            coef = {
+              svt: 7,
+              math: 7,
+              pc: 5,
+              philo: 2,
+              en: 2
+            };
+          } else if (branch2 === "pc") {
+            coef = {
+              svt: 5,
+              math: 7,
+              pc: 7,
+              philo: 2,
+              en: 2
+            };
+          } else if (branch2 === "agricultural") {
+            coef = {
+              math: 7,
+              pc: 5,
+              svt: 5,
+              plant_animal: 5,
+              philo: 2,
+              en: 2
+            };
+          }
+          
+          const nationalTotal = parsedInputs.math * coef.math + 
+                              (branch2 === "agricultural" ? parsedInputs.plant_animal * coef.plant_animal : parsedInputs.svt * coef.svt) + 
+                              parsedInputs.pc * coef.pc + 
+                              parsedInputs.philo * coef.philo + 
+                              parsedInputs.en * coef.en;
           const nationalCoefSum = Object.values(coef).reduce((a, b) => a + b);
           nationalAvg = nationalTotal / nationalCoefSum;
           nationalExam = nationalAvg * 0.50;
+          
+          let details = `(MATH:${parsedInputs.math}×${coef.math} + `;
+          if (branch2 === "agricultural") {
+            details += `PLANT_ANIMAL:${parsedInputs.plant_animal}×5 + `;
+          }
+          details += `SVT:${parsedInputs.svt}×${coef.svt} + PC:${parsedInputs.pc}×${coef.pc} + PHILO:${parsedInputs.philo}×2 + EN:${parsedInputs.en}×2) / ${nationalCoefSum} = ${nationalAvg.toFixed(2)} × 50%`;
+          
           steps.push({
             title: "National Exam (50%)",
             value: nationalExam.toFixed(2),
-            details: `(SVT:${parsedInputs.svt}×${coef.svt} + MATH:${parsedInputs.math}×${coef.math} + PC:${parsedInputs.pc}×${coef.pc} + PHILO:${parsedInputs.philo}×${coef.philo} + EN:${parsedInputs.en}×${coef.en}) / ${nationalCoefSum} = ${nationalAvg.toFixed(2)} × 50%`
+            details: details
           });
         } else if (branch1 === "adab") {
           const coef = branch2 === "lettres" 
@@ -678,15 +716,38 @@ function BacAverageByStream({ onBack }) {
         let nationalCoefSum = 0;
         
         if (branch1 === "science") {
-          const coef = {
-            svt: branch2 === "svt" ? 7 : 5,
-            math: 7,
-            pc: branch2 === "pc" ? 7 : 5,
-            philo: 2,
-            en: 2,
-          };
-          nationalTotal = parsedInputs.svt * coef.svt + parsedInputs.math * coef.math + 
-                         parsedInputs.pc * coef.pc + parsedInputs.philo * coef.philo + 
+          let coef;
+          if (branch2 === "svt") {
+            coef = {
+              svt: 7,
+              math: 7,
+              pc: 5,
+              philo: 2,
+              en: 2
+            };
+          } else if (branch2 === "pc") {
+            coef = {
+              svt: 5,
+              math: 7,
+              pc: 7,
+              philo: 2,
+              en: 2
+            };
+          } else if (branch2 === "agricultural") {
+            coef = {
+              math: 7,
+              pc: 5,
+              svt: 5,
+              plant_animal: 5,
+              philo: 2,
+              en: 2
+            };
+          }
+          
+          nationalTotal = parsedInputs.math * coef.math + 
+                         (branch2 === "agricultural" ? parsedInputs.plant_animal * coef.plant_animal : parsedInputs.svt * coef.svt) + 
+                         parsedInputs.pc * coef.pc + 
+                         parsedInputs.philo * coef.philo + 
                          parsedInputs.en * coef.en;
           nationalCoefSum = Object.values(coef).reduce((a, b) => a + b);
         } else if (branch1 === "adab") {
@@ -787,7 +848,9 @@ function BacAverageByStream({ onBack }) {
             title: "National Exam (14/22)",
             value: nationalAvg.toFixed(2),
             details: branch1 === "science"
-              ? `(SVT:${parsedInputs.svt}×${branch2 === "svt" ? 7 : 5} + MATH:${parsedInputs.math}×7 + PC:${parsedInputs.pc}×${branch2 === "pc" ? 7 : 5} + PHILO:${parsedInputs.philo}×2 + EN:${parsedInputs.en}×2) / ${nationalCoefSum}`
+              ? branch2 === "agricultural"
+                ? `(MATH:${parsedInputs.math}×7 + PC:${parsedInputs.pc}×5 + SVT:${parsedInputs.svt}×5 + PLANT_ANIMAL:${parsedInputs.plant_animal}×5 + PHILO:${parsedInputs.philo}×2 + EN:${parsedInputs.en}×2) / ${nationalCoefSum}`
+                : `(SVT:${parsedInputs.svt}×${branch2 === "svt" ? 7 : 5} + MATH:${parsedInputs.math}×7 + PC:${parsedInputs.pc}×${branch2 === "pc" ? 7 : 5} + PHILO:${parsedInputs.philo}×2 + EN:${parsedInputs.en}×2) / ${nationalCoefSum}`
               : branch1 === "adab"
                 ? `(AR:${parsedInputs.ar}×${branch2 === "lettres" ? 4 : 3} + EN:${parsedInputs.en}×${branch2 === "lettres" ? 4 : 3} + HG:${parsedInputs.hg}×${branch2 === "lettres" ? 3 : 4} + PHILO:${parsedInputs.philo}×${branch2 === "lettres" ? 3 : 4}) / ${nationalCoefSum}`
                 : branch1 === "economics"
@@ -942,6 +1005,7 @@ function BacAverageByStream({ onBack }) {
                   branch1 === "science_tech" ? "Science and Technology" : "",
           branch2: branch2 === "svt" ? "SVT" : 
                   branch2 === "pc" ? "PC" : 
+                  branch2 === "agricultural" ? "Agricultural Sciences" :
                   branch2 === "lettres" ? "Lettres" : 
                   branch2 === "science humain" ? "Science Humain" :
                   branch2 === "accounting" ? "Accounting Management Sciences" :
@@ -1485,6 +1549,13 @@ function BacAverageByStream({ onBack }) {
             }}>
               PC
             </button>
+            <button className="btn" onClick={() => { 
+              setBranch2("agricultural"); 
+              setSelectedValues(prev => ({ ...prev, branch2: "Agricultural Sciences" }));
+              handleNext(); 
+            }}>
+              Agricultural Sciences
+            </button>
             <button className="btn back" onClick={handleBack}>
               Back
             </button>
@@ -1592,32 +1663,84 @@ function BacAverageByStream({ onBack }) {
         </div>
       )}
 
-      {step === 4 && branch1 === "science" && (
-        <div className="step-content">
-          <h2 className="exam-title">National Exam</h2>
-          {renderInput("svt", "SVT")}
-          {renderInput("math", "Math")}
-          {renderInput("pc", "Physics-Chemistry")}
-          {renderInput("philo", "Philosophy")}
-          {renderInput("en", "English")}
+{step === 4 && branch1 === "science" && branch2 === "svt" && (
+  <div className="step-content">
+    <h2 className="exam-title">National Exam</h2>
+    {renderInput("svt", "SVT")}
+    {renderInput("math", "Math")}
+    {renderInput("pc", "Physics-Chemistry")}
+    {renderInput("philo", "Philosophy")}
+    {renderInput("en", "English")}
 
-          <div className="navigation-buttons">
-            <button className="btn back" onClick={handleBack}>
-              Back
-            </button>
-            {studentType === "independent" ? (
-              <button className="btn" onClick={calcAverage}>
-                Calculate Average
-              </button>
-            ) : (
-              <button className="btn" onClick={handleNext}>
-                Next
-              </button>
-            )}
-          </div>
-        </div>
+    <div className="navigation-buttons">
+      <button className="btn back" onClick={handleBack}>
+        Back
+      </button>
+      {studentType === "independent" ? (
+        <button className="btn" onClick={calcAverage}>
+          Calculate Average
+        </button>
+      ) : (
+        <button className="btn" onClick={handleNext}>
+          Next
+        </button>
       )}
+    </div>
+  </div>
+)}
 
+{step === 4 && branch1 === "science" && branch2 === "pc" && (
+  <div className="step-content">
+    <h2 className="exam-title">National Exam</h2>
+    {renderInput("svt", "SVT")}
+    {renderInput("math", "Math")}
+    {renderInput("pc", "Physics-Chemistry")}
+    {renderInput("philo", "Philosophy")}
+    {renderInput("en", "English")}
+
+    <div className="navigation-buttons">
+      <button className="btn back" onClick={handleBack}>
+        Back
+      </button>
+      {studentType === "independent" ? (
+        <button className="btn" onClick={calcAverage}>
+          Calculate Average
+        </button>
+      ) : (
+        <button className="btn" onClick={handleNext}>
+          Next
+        </button>
+      )}
+    </div>
+  </div>
+)}
+
+{step === 4 && branch1 === "science" && branch2 === "agricultural" && (
+  <div className="step-content">
+    <h2 className="exam-title">National Exam</h2>
+    {renderInput("math", "Mathematics")}
+    {renderInput("pc", "Physics-Chemistry")}
+    {renderInput("plant_animal", "Plant and Animal Sciences")}
+    {renderInput("philo", "Philosophy")}
+    {renderInput("en", "English")}
+
+    <div className="navigation-buttons">
+      <button className="btn back" onClick={handleBack}>
+        Back
+      </button>
+      {studentType === "independent" ? (
+        <button className="btn" onClick={calcAverage}>
+          Calculate Average
+        </button>
+      ) : (
+        <button className="btn" onClick={handleNext}>
+          Next
+        </button>
+      )}
+    </div>
+  </div>
+)}
+      
       {step === 4 && branch1 === "adab" && (
         <div className="step-content">
           <h2 className="exam-title">National Exam</h2>
@@ -1723,37 +1846,21 @@ function BacAverageByStream({ onBack }) {
         </div>
       )}
 
-      {step === 5 && studentType === "regular" && branch1 !== "math" && branch1 !== "science_tech" && (
-        <div className="step-content">
-          <h2 className="exam-title">Continuous Controls</h2>
-          {renderInput("s1", "Semester 1")}
-          {renderInput("s2", "Semester 2")}
-          <div className="navigation-buttons">
-            <button className="btn back" onClick={handleBack}>
-              Back
-            </button>
-            <button className="btn" onClick={calcAverage}>
-              Calculate Average
-            </button>
-          </div>
-        </div>
-      )}
-
-      {step === 5 && studentType === "regular" && (branch1 === "math" || branch1 === "science_tech") && (
-        <div className="step-content">
-          <h2 className="exam-title">Continuous Controls</h2>
-          {renderInput("s1", "Semester 1")}
-          {renderInput("s2", "Semester 2")}
-          <div className="navigation-buttons">
-            <button className="btn back" onClick={handleBack}>
-              Back
-            </button>
-            <button className="btn" onClick={calcAverage}>
-              Calculate Average
-            </button>
-          </div>
-        </div>
-      )}
+      {step === 5 && studentType === "regular" && (
+  <div className="step-content">
+    <h2 className="exam-title">Continuous Controls</h2>
+    {renderInput("s1", "Semester 1")}
+    {renderInput("s2", "Semester 2")}
+    <div className="navigation-buttons">
+      <button className="btn back" onClick={handleBack}>
+        Back
+      </button>
+      <button className="btn" onClick={calcAverage}>
+        Calculate Average
+      </button>
+    </div>
+  </div>
+)}
     </div>
   );
 }
