@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './BacCalculator.module.css';
 import CalculatorForm from './CalculatorForm';
 import ResultDisplay from './ResultDisplay';
 
 const BacCalculator = ({ onBack }) => {
+  const { t, i18n } = useTranslation();
   const [mode, setMode] = useState('average');
   const [result, setResult] = useState(null);
   const [inputs, setInputs] = useState({
@@ -13,6 +15,12 @@ const BacCalculator = ({ onBack }) => {
     target: ''
   });
   const [error, setError] = useState('');
+
+  const changeLanguage = (e) => {
+    const lng = e.target.value;
+    i18n.changeLanguage(lng);
+    document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr';
+  };
 
   const calculate = () => {
     setError('');
@@ -33,7 +41,7 @@ const BacCalculator = ({ onBack }) => {
       const needed = (targetScore - (regionalScore * 0.25 + continuousScore * 0.25)) / 0.5;
 
       if (needed < 0.01 || needed > 20.00) {
-        setError('Attention: It is impossible to obtain this score - try different values');
+        setError(t('calculator.errors.impossibleScore'));
         setResult(null);
         return;
       }
@@ -54,43 +62,44 @@ const BacCalculator = ({ onBack }) => {
 
   return (
     <div className={styles.container}>
-      <button onClick={onBack} className={styles.backButton}>
-        ← Back to Menu
-      </button>
-      
-      <h1 className={styles.title}>Baccalaureate Formula Calculator</h1>
+      <div className={styles.header}>
+        <button onClick={onBack} className={styles.backButton}>
+          {t('buttons.back')}
+        </button>
+        
+        <h1 className={styles.title}>{t('calculator.title')}</h1>
+        
+        {/* Empty div for spacing */}
+        <div style={{ width: '48px' }}></div>
+      </div>
+
+      {/* Language Switcher */}
+      <div className={styles.languageSwitcher}>
+        <select
+          value={i18n.language}
+          onChange={changeLanguage}
+          className={styles.languageSelect}
+        >
+          <option value="en">🇬🇧 English</option>
+          <option value="fr">🇫🇷 Français</option>
+          <option value="ar">🇲🇦 العربية</option>
+        </select>
+      </div>
       
       <div className={styles.modeSelector}>
-        <button
-          className={`${styles.modeButton} ${mode === 'average' ? styles.active : ''}`}
-          onClick={() => {
-            setMode('average');
-            setResult(null);
-            setError('');
-          }}
-        >
-          Calculate Bac Average
-        </button>
-        <button
-          className={`${styles.modeButton} ${mode === 'needed' ? styles.active : ''}`}
-          onClick={() => {
-            setMode('needed');
-            setResult(null);
-            setError('');
-          }}
-        >
-          Needed Marks (national exam)
-        </button>
-        <button
-          className={`${styles.modeButton} ${mode === 'minimum' ? styles.active : ''}`}
-          onClick={() => {
-            setMode('minimum');
-            setResult(null);
-            setError('');
-          }}
-        >
-          Average Required to Pass
-        </button>
+        {['average', 'needed', 'minimum'].map((modeType) => (
+          <button
+            key={modeType}
+            className={`${styles.modeButton} ${mode === modeType ? styles.active : ''}`}
+            onClick={() => {
+              setMode(modeType);
+              setResult(null);
+              setError('');
+            }}
+          >
+            {t(`calculator.modes.${modeType}`)}
+          </button>
+        ))}
       </div>
 
       <CalculatorForm 
@@ -100,7 +109,6 @@ const BacCalculator = ({ onBack }) => {
         calculate={calculate}
       />
 
-      {/* Single error message location */}
       {error && (
         <div className={styles.error}>
           {error}

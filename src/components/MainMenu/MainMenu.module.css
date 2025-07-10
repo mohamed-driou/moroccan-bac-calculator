@@ -3,8 +3,8 @@
   margin: 2rem auto;
   padding: 2rem;
   text-align: center;
+  position: relative; /* Needed for absolute positioning inside */
 }
-
 .menuOptions {
   display: flex;
   flex-direction: column;
@@ -59,4 +59,43 @@
   padding-left: 1.5rem;
 }
 
+/* Language Switcher */
+.languageSwitcher {
+  position: fixed; /* Changed from absolute to fixed */
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 10;
+  background-color: var(--container-bg);
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  padding: 0.4rem 0.8rem;
+}
 
+/* Styled select element */
+.languageSelect {
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='30,50 70,90 110,50' fill='none' stroke='%23666' stroke-width='14'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 12px;
+  padding-right: 2rem;
+  transition: all 0.3s ease;
+}
+
+.languageSelect:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(52, 123, 255, 0.2);
+}
+
+/* RTL support */
+[dir="rtl"] .languageSwitcher {
+  direction: ltr;
+}

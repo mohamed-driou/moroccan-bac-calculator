@@ -1,0 +1,19 @@
+.resultContainer {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: var(--container-bg);
+  border-radius: 12px;
+  text-align: center;
+}
+
+.resultValue {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  color: var(--primary-color);
+}
+
+/* RTL specific styles */
+[dir="rtl"] .resultContainer {
+  text-align: right;
+}

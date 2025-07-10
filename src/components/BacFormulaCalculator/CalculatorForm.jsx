@@ -1,7 +1,10 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import styles from './BacCalculator.module.css';
 
 const CalculatorForm = ({ mode, inputs, setInputs, calculate }) => {
+  const { t } = useTranslation();
+
   const handleInputChange = (e, field) => {
     const value = e.target.value;
     
@@ -26,7 +29,7 @@ const CalculatorForm = ({ mode, inputs, setInputs, calculate }) => {
     <div className={styles.calculatorForm}>
       {/* Regional Exam (25%) */}
       <div className={styles.inputGroup}>
-        <label>Regional Exam (25%) :</label>
+        <label>{t('calculator.regionalExam')} (25%) :</label>
         <input
           type="text"
           inputMode="decimal"
@@ -35,16 +38,16 @@ const CalculatorForm = ({ mode, inputs, setInputs, calculate }) => {
           className={`${styles.inputField} ${
             inputs.regional && !isInputValid(inputs.regional) ? styles.invalid : ''
           }`}
-          placeholder="0.00 - 20.00"
+          placeholder={t('calculator.inputPlaceholder')}
         />
         {inputs.regional && !isInputValid(inputs.regional) && (
-          <p className={styles.errorText}>Must be between 0.00 and 20.00</p>
+          <p className={styles.errorText}>{t('calculator.validationError')}</p>
         )}
       </div>
 
       {/* Continuous Assessment (25%) */}
       <div className={styles.inputGroup}>
-        <label>Continuous Assessment (25%) :</label>
+        <label>{t('calculator.continuousAssessment')} (25%) :</label>
         <input
           type="text"
           inputMode="decimal"
@@ -53,17 +56,17 @@ const CalculatorForm = ({ mode, inputs, setInputs, calculate }) => {
           className={`${styles.inputField} ${
             inputs.continuous && !isInputValid(inputs.continuous) ? styles.invalid : ''
           }`}
-          placeholder="0.00 - 20.00"
+          placeholder={t('calculator.inputPlaceholder')}
         />
         {inputs.continuous && !isInputValid(inputs.continuous) && (
-          <p className={styles.errorText}>Must be between 0.00 and 20.00</p>
+          <p className={styles.errorText}>{t('calculator.validationError')}</p>
         )}
       </div>
 
       {/* Conditional Fields */}
       {mode === 'average' && (
         <div className={styles.inputGroup}>
-          <label>National Exam (50%) :</label>
+          <label>{t('calculator.nationalExam')} (50%) :</label>
           <input
             type="text"
             inputMode="decimal"
@@ -72,17 +75,17 @@ const CalculatorForm = ({ mode, inputs, setInputs, calculate }) => {
             className={`${styles.inputField} ${
               inputs.national && !isInputValid(inputs.national) ? styles.invalid : ''
             }`}
-            placeholder="0.00 - 20.00"
+            placeholder={t('calculator.inputPlaceholder')}
           />
           {inputs.national && !isInputValid(inputs.national) && (
-            <p className={styles.errorText}>Must be between 0.00 and 20.00</p>
+            <p className={styles.errorText}>{t('calculator.validationError')}</p>
           )}
         </div>
       )}
 
       {mode === 'needed' && (
         <div className={styles.inputGroup}>
-          <label>Target Bac Average :</label>
+          <label>{t('calculator.targetBac')} :</label>
           <input
             type="text"
             inputMode="decimal"
@@ -91,21 +94,21 @@ const CalculatorForm = ({ mode, inputs, setInputs, calculate }) => {
             className={`${styles.inputField} ${
               inputs.target && !isInputValid(inputs.target) ? styles.invalid : ''
             }`}
-            placeholder="0.00 - 20.00"
+            placeholder={t('calculator.inputPlaceholder')}
           />
           {inputs.target && !isInputValid(inputs.target) && (
-            <p className={styles.errorText}>Must be between 0.00 and 20.00</p>
+            <p className={styles.errorText}>{t('calculator.validationError')}</p>
           )}
         </div>
       )}
 
       {mode === 'minimum' && (
         <div className={styles.inputGroup}>
-          <label>Baccalaureate Average (Fixed) (50%)</label>
+          <label>{t('calculator.bacAverageFixed')} (50%)</label>
           <div className={styles.fixedValueContainer}>
             10.00/20
           </div>
-          <p className={styles.hintText}>Passing grade (fixed value)</p>
+          <p className={styles.hintText}>{t('calculator.passingGrade')}</p>
         </div>
       )}
 
@@ -120,7 +123,7 @@ const CalculatorForm = ({ mode, inputs, setInputs, calculate }) => {
             : !isInputValid(inputs.regional) || !isInputValid(inputs.continuous) || !isInputValid(inputs.national)
         }
       >
-        Calculate
+        {t('calculator.calculateButton')}
       </button>
     </div>
   );

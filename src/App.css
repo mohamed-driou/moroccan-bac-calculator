@@ -760,6 +760,21 @@ input:invalid {
   transform: translateY(-2px);
 }
 
+/* RTL Support */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .input-group {
+  direction: rtl;
+}
+
+/* Fix tooltip positioning in RTL */
+[dir="rtl"] .tooltip-container {
+  margin-left: 0;
+  margin-right: 8px;
+}
+
 /* Exam Components Styles */
 .exam-components {
   background-color: var(--progress-bg);
@@ -974,6 +989,72 @@ input:invalid {
   background-color: #d32f2f !important;
 }
 
+.it-geo-question {
+  margin-top: 1.5rem;
+}
+
+
+.it-geo-question p {
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.it-geo-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.question-box.it-geo-question .btn.btn-yes {
+  background-color: var(--success-color) !important;
+}
+
+.question-box.it-geo-question .btn.btn-yes:hover {
+  background-color: #3e8e41 !important;
+}
+
+.question-box.it-geo-question .btn.btn-no {
+  background-color: var(--error-color) !important;
+}
+
+.question-box.it-geo-question .btn.btn-no:hover {
+  background-color: #d32f2f !important;
+}
+
+.mis-question {
+  margin-top: 1.5rem;
+}
+
+
+.visual-arts-question p {
+  font-weight: bold;
+  margin-bottom: 0.75rem;
+}
+
+.mvisual-arts-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.question-box.visual-arts-question .btn.btn-yes {
+  background-color: var(--success-color) !important;
+}
+
+.question-box.visual-arts-question .btn.btn-yes:hover {
+  background-color: #3e8e41 !important;
+}
+
+.question-box.visual-arts-question .btn.btn-no {
+  background-color: var(--error-color) !important;
+}
+
+.question-box.visual-arts-question .btn.btn-no:hover {
+  background-color: #d32f2f !important;
+}
+
 /* Button Groups */
 .button-group {
   display: flex;
@@ -1004,9 +1085,67 @@ input:invalid {
   animation: fadeIn 0.3s ease-out;
 }
 
+/* Language Switcher - Fixed Right Position */
+.language-switcher {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem; /* Always on right */
+  left: auto; /* Explicitly disable left positioning */
+  z-index: 10;
+  background-color: var(--container-bg);
+  border-radius: 12px;
+  box-shadow: 0 2px 6px var(--shadow-color);
+  padding: 0.4rem 0.8rem;
+  direction: ltr; /* Force LTR layout for the switcher */
+}
+
+/* Remove RTL positioning override */
+[dir="rtl"] .language-switcher {
+  left: auto; /* Ensure left is disabled */
+  right: 1rem; /* Keep on right */
+}
+
+.language-select {
+  padding: 0.6rem 1rem 0.6rem 1rem; /* Symmetrical padding */
+  border-radius: 8px;
+  background-color: var(--input-bg);
+  color: var(--text-color);
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='30,50 70,90 110,50' fill='none' stroke='%23666' stroke-width='14'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center; /* Always right */
+  background-size: 12px;
+  padding-right: 2rem;
+  transition: all 0.3s ease;
+}
+
+/* Remove RTL select adjustments */
+[dir="rtl"] .language-select {
+  /* Keep original styles */
+  background-position: right 1rem center;
+  padding-right: 2rem;
+  padding-left: 1rem;
+}
+
+
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .language-switcher {
+    bottom: 0.5rem;
+    right: 0.5rem;
+    padding: 0.3rem 0.6rem;
+  }
+}
+
 /* Footer */
 footer.copyright {
   margin-top: 2.5rem;
+  margin-bottom: 3rem; /* Added to prevent overlap */
   padding: 1rem;
   text-align: center;
   font-size: 0.95rem;
@@ -1016,6 +1155,7 @@ footer.copyright {
   box-shadow: 0 4px 12px var(--shadow-color);
   animation: fadeIn 0.6s ease-out;
 }
+
 
 .version-info {
   font-size: 0.85rem;
