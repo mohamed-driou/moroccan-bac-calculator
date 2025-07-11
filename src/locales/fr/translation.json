@@ -41,7 +41,7 @@
     "minimumNationalExam": "Note minimale à l'examen national : {{value}}/20"
   },
   "footer": {
-    "copyright": "© 2024 Développé par Mohamed Driou | CALCULATEUR DU BAC MAROCAIN | Licence MIT",
+    "copyright": "© 2025 Développé par Mohamed Driou | CALCULATEUR DU BAC MAROCAIN | Licence MIT",
     "version": "v{{version}}",
     "license": "Licence MIT",
     "lastUpdated": "Mis à jour : {{date}}"

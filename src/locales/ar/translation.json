@@ -41,7 +41,7 @@
     "minimumNationalExam": "الحد الأدنى في الامتحان الوطني: {{value}}/20"
   },
   "footer": {
-    "copyright": "© 2024 طوره محمد ادريو | حاسبة البكالوريا المغربية | رخصة MIT",
+    "copyright": "© 2025 طوره محمد ادريو | حاسبة البكالوريا المغربية | رخصة MIT",
     "version": "الإصدار {{version}}",
     "license": "رخصة MIT",
     "lastUpdated": "آخر تحديث: {{date}}"

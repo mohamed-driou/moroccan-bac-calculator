@@ -40,7 +40,7 @@
     "minimumNationalExam": "Minimum National Exam mark: {{value}}/20"
   },
   "footer": {
-    "copyright": "© 2024 Developed by Mohamed Driou | MOROCCAN BAC CALCULATOR | MIT Licensed",
+    "copyright": "© 2025 Developed by Mohamed Driou | MOROCCAN BAC CALCULATOR | MIT Licensed",
     "version": "v{{version}}",
     "license": "MIT License",
     "lastUpdated": "Updated: {{date}}"
