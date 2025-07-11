@@ -1,0 +1,7 @@
+[build]
+  command = "pnpm install --no-frozen-lockfile && pnpm run build"
+  publish = "dist"
+  environment = { NODE_VERSION = "20.0.0" }
+
+[context.production.environment]
+  VITE_APP_VERSION = "2.0.0"

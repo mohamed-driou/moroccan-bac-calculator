@@ -14,9 +14,9 @@ import BacFormulaCalculator from './components/BacFormulaCalculator/BacCalculato
  */
 
 const APP_VERSION = {
-  version: "2.0.0",
+  version: "2.0.1",
   build: Date.now(),
-  lastUpdated: "July 10, 2025"
+  lastUpdated: "July 11, 2025"
 };
 
 const SunIcon = () => (
