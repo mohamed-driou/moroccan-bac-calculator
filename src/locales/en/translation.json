@@ -251,5 +251,20 @@
   "regionalExam": "Regional Exam",
   "nationalExam": "National Exam",
   "title": "Baccalaureate average calculation by stream",
-  "continuousControls": "Continuous Controls"
+  "continuousControls": "Continuous Controls",
+
+
+  "donate": "Donate",
+  "support": {
+    "title": "Support the Project",
+    "description": "If you find this app useful, consider supporting its development with a donation.",
+    "donateNow": "Donate Now",
+    "thankYou": "Thank you for your support! ❤",
+    "methods": {
+      "paypal": "PayPal",
+      "binance": "Binance",
+      "cih": "CIH Bank"
+    }
+  }
+
 }

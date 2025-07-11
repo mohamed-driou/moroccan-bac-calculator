@@ -8,22 +8,32 @@ import frTranslations from "./locales/fr/translation.json";
 import arTranslations from "./locales/ar/translation.json";
 
 i18n
-  .use(LanguageDetector) // Detect user language
-  .use(initReactI18next) // Pass i18n to react-i18next
+  .use(LanguageDetector)
+  .use(initReactI18next)
   .init({
     resources: {
       en: { translation: enTranslations },
       fr: { translation: frTranslations },
       ar: { translation: arTranslations }
     },
-    fallbackLng: "en", // Default language
+    fallbackLng: "en",
     interpolation: {
-      escapeValue: false // React already protects against XSS
+      escapeValue: false
     },
     detection: {
-      order: ["localStorage", "navigator"], // Check localStorage first
-      caches: ["localStorage"] // Cache language in localStorage
+      order: ["localStorage", "navigator"],
+      caches: ["localStorage"]
     }
   });
+
+// ⭐️ Add this to handle RTL for Arabic
+i18n.on('languageChanged', (lng) => {
+  document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr';
+  document.documentElement.lang = lng;
+});
+
+// ⭐️ Initialize direction for the default language
+document.documentElement.dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+document.documentElement.lang = i18n.language;
 
 export default i18n;

@@ -252,5 +252,18 @@
   "regionalExam": "Examen Régional",
   "nationalExam": "Examen National",
   "title": "Calcul la moyenne du baccalauréat selon la filière",
-  "continuousControls": "Contrôles Continus"
+  "continuousControls": "Contrôles Continus",
+
+"donate": "Faire un don",
+  "support": {
+    "title": "Soutenez le projet",
+    "description": "Si vous trouvez cette application utile, envisagez de soutenir son développement par un don.",
+    "donateNow": "Faire un don maintenant",
+    "thankYou": "Merci pour votre soutien ! ❤",
+    "methods": {
+      "paypal": "PayPal",
+      "binance": "Binance",
+      "cih": "Banque CIH"
+    }
+  }
 }

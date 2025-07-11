@@ -4,6 +4,7 @@ import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
 import MainMenu from './components/MainMenu/MainMenu';
 import { useTranslation } from "react-i18next";
 import BacFormulaCalculator from './components/BacFormulaCalculator/BacCalculator';
+import SupportPage from './components/SupportPage/SupportPage';
 
 /**
  * Moroccan Baccalaureate Calculator
@@ -14,7 +15,7 @@ import BacFormulaCalculator from './components/BacFormulaCalculator/BacCalculato
  */
 
 const APP_VERSION = {
-  version: "2.0.2",
+  version: "2.0.3",
   build: Date.now(),
   lastUpdated: "July 11, 2025"
 };
@@ -2793,8 +2794,20 @@ export default function App() {
         return <BacAverageByStream onBack={() => setCurrentView('menu')} />;
       case 'formula':
         return <BacFormulaCalculator onBack={() => setCurrentView('menu')} />;
+      case 'support':
+        return <SupportPage onBack={() => setCurrentView('menu')} />;
       default:
-        return <MainMenu onSelectCalculator={(type) => setCurrentView(type)} />;
+        return (
+          <>
+            <MainMenu onSelectCalculator={(type) => setCurrentView(type)} />
+            <button 
+              className="donate-button"
+              onClick={() => setCurrentView('support')}
+            >
+              {t('donate')}
+            </button>
+          </>
+        );
     }
   };
 
@@ -2827,7 +2840,12 @@ export default function App() {
           </select>
         </div>
       </div>
-
+      <button 
+        className="donate-button"
+        onClick={() => setCurrentView('support')}
+      >
+        {t('donate')}
+      </button>
       {renderCurrentView()}
 
       <footer className="copyright">
