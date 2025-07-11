@@ -1,79 +1,81 @@
-# Moroccan Baccalaureate Calculator 🇲🇦 <img src="https://img.shields.io/github/package-json/v/yourusername/moroccan-bac-calculator" alt="Version"> [![GitHub license](https://img.shields.io/github/license/yourusername/moroccan-bac-calculator)](https://github.com/yourusername/moroccan-bac-calculator/blob/main/LICENSE) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/yourusername/moroccan-bac-calculator/pulls)
+# Moroccan Baccalaureate Calculator 🇲🇦 
+
+[![Version](https://img.shields.io/github/package-json/v/yourusername/moroccan-bac-calculator)](https://github.com/yourusername/moroccan-bac-calculator)
+[![License: MIT](https://img.shields.io/github/license/yourusername/moroccan-bac-calculator)](https://opensource.org/licenses/MIT)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/yourusername/moroccan-bac-calculator/pulls)
+[![GitHub stars](https://img.shields.io/github/stars/yourusername/moroccan-bac-calculator)](https://github.com/yourusername/moroccan-bac-calculator/stargazers)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/yourusername/moroccan-bac-calculator/ci.yml)](https://github.com/yourusername/moroccan-bac-calculator/actions)
 
 ![App Screenshot](docs/screenshots/main-interface.png)
 
-An official-grade calculator for Moroccan Baccalaureate students to accurately predict their scores across all streams and specialties, following the Moroccan Ministry of Education's grading methodology.
+A comprehensive calculator for Moroccan Baccalaureate students to accurately predict their scores across all streams and specialties, following the official grading methodology of the Moroccan Ministry of Education.
 
 ## Table of Contents
-- [Key Features](#key-features-)
+- [Features](#features-)
 - [Supported Streams](#supported-streams-)
-- [Live Demo](#live-demo-)
+- [Demo](#demo-)
 - [Installation](#installation-)
-- [Development Setup](#development-setup-)
-- [Technology Stack](#technology-stack-)
+- [Usage](#usage-)
+- [Development](#development-)
+- [Tech Stack](#tech-stack-)
 - [Contributing](#contributing-)
-- [Translation Guide](#translation-guide-)
-- [Frequently Asked Questions](#faq-)
-- [Roadmap](#roadmap-)
+- [FAQ](#faq-)
 - [License](#license-)
-- [Support](#support-)
 
-## Key Features ✨
+## Features ✨
 
-### 🎯 Accurate Calculations
-- Implements official Moroccan grading formulas
-- Handles all coefficient variations by stream
-- Supports both regular and independent candidates
+### 📊 Accurate Grade Calculation
+- Official Moroccan grading formulas
+- All coefficient variations by stream
+- Supports regular and independent candidates
 
 ### 🌍 Multilingual Support
-- Full Arabic/French/English interface
-- RTL layout support for Arabic
-- Easy to add new languages
+- Arabic/French/English interface
+- RTL layout for Arabic
+- Easy localization
 
-### 📊 Detailed Analytics
-- Step-by-step calculation breakdowns
+### 📈 Detailed Analysis
+- Step-by-step calculation breakdown
 - Regional vs. national exam weighting
-- Continuous control integration
+- Continuous assessment integration
 
-### 🎨 Modern UX
-- Dark/Light mode theming
-- Responsive mobile-first design
-- Interactive coefficient guides
-- Accessible color schemes
+### 🎨 Modern Interface
+- Dark/Light mode
+- Responsive design
+- Accessible UI
+- Interactive guides
 
 ## Supported Streams 📚
 
-| Branch          | Specializations                     | Key Subjects                          |
-|-----------------|-------------------------------------|---------------------------------------|
-| Scientific      | SVT, Physics-Chemistry, Agricultural | Math (7-9), PC/SVT (5-7), Philosophy |
-| Mathematical    | Math A, Math B                      | Math (9), Physics (7), Engineering   |
-| Economic        | Accounting, Economic Sciences       | Economics (6), Math (4), Accounting  |
-| Technical       | Mechanical, Electrical              | Engineering (8), Physics (5)         |
-| Original        | Arabic, Islamic Studies             | Literature (5), Interpretation (4)   |
-| Applied Arts    | Product Design, Multimedia          | Design (8), Visual Arts (5)          |
+| Branch          | Specializations                     | Key Subjects               |
+|-----------------|-------------------------------------|----------------------------|
+| Scientific      | SVT, Physics-Chemistry             | Math (9), PC/SVT (7)       |
+| Mathematical    | Math A, Math B                     | Math (9), Physics (7)      |
+| Economic        | Accounting, Economics              | Economics (6), Math (4)    |
+| Technical       | Mechanical, Electrical             | Engineering (8)            |
+| Original        | Arabic, Islamic Studies           | Literature (5)             |
 
-## Live Demo 🌐
+## Demo 🌐
 
-Try the calculator now: [https://bac-calculator.ma](https://bac-calculator.ma)  
-*(Replace with your actual deployment URL)*
+Try it online: [https://bac-calculator.ma](https://bac-calculator.ma)
 
 ## Installation 💻
 
-### Prerequisites
-- Node.js v18+
-- npm v9+ or yarn
+### Requirements
+- Node.js 18+
+- npm 9+ or yarn
 - Git
 
 ### Quick Start
 ```bash
-# Clone repository
+# Clone the repository
 git clone https://github.com/yourusername/moroccan-bac-calculator.git
 
 # Install dependencies
 cd moroccan-bac-calculator
 npm install
 
-# Run development server
+# Start development server
 npm run dev
 
-# Open http://localhost:3000 in browser
+# Open http://localhost:3000
