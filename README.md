@@ -1,81 +1,144 @@
-# Moroccan Baccalaureate Calculator 🇲🇦 
+# 🇲🇦 Moroccan Baccalaureate Calculator
 
-[![Version](https://img.shields.io/github/package-json/v/yourusername/moroccan-bac-calculator)](https://github.com/yourusername/moroccan-bac-calculator)
-[![License: MIT](https://img.shields.io/github/license/yourusername/moroccan-bac-calculator)](https://opensource.org/licenses/MIT)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/yourusername/moroccan-bac-calculator/pulls)
-[![GitHub stars](https://img.shields.io/github/stars/yourusername/moroccan-bac-calculator)](https://github.com/yourusername/moroccan-bac-calculator/stargazers)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/yourusername/moroccan-bac-calculator/ci.yml)](https://github.com/yourusername/moroccan-bac-calculator/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-![App Screenshot](docs/screenshots/main-interface.png)
+A modern, multilingual web application to calculate the Moroccan Baccalaureate average, supporting various academic streams and student types.
 
-A comprehensive calculator for Moroccan Baccalaureate students to accurately predict their scores across all streams and specialties, following the official grading methodology of the Moroccan Ministry of Education.
+---
 
-## Table of Contents
-- [Features](#features-)
-- [Supported Streams](#supported-streams-)
-- [Demo](#demo-)
-- [Installation](#installation-)
-- [Usage](#usage-)
-- [Development](#development-)
-- [Tech Stack](#tech-stack-)
-- [Contributing](#contributing-)
-- [FAQ](#faq-)
-- [License](#license-)
+## 🎓 Overview
 
-## Features ✨
+This project provides students in Morocco with an accurate and user-friendly tool to calculate their final Baccalaureate scores. It supports:
 
-### 📊 Accurate Grade Calculation
-- Official Moroccan grading formulas
-- All coefficient variations by stream
-- Supports regular and independent candidates
+- All main academic branches (e.g., Science, Literature, Economics, Math, Technical Sciences, Traditional Education, Applied Arts)
+- Both **regular** and **independent** candidates
+- National, regional, and continuous assessment components
+- Advanced breakdown of calculations
+- Support for optional subjects and special cases
+- Multilingual UI with translation support
 
-### 🌍 Multilingual Support
-- Arabic/French/English interface
-- RTL layout for Arabic
-- Easy localization
+---
 
-### 📈 Detailed Analysis
-- Step-by-step calculation breakdown
-- Regional vs. national exam weighting
-- Continuous assessment integration
+## 🚀 Features
 
-### 🎨 Modern Interface
-- Dark/Light mode
-- Responsive design
-- Accessible UI
-- Interactive guides
+- 🧠 Smart input validation  
+- 📈 Coefficient-based weighted averages  
+- 👥 Supports independent & regular students  
+- 🗂️ Track selection and branch-specific logic  
+- 💡 Detailed calculation breakdown  
+- 🌓 Light/Dark mode support  
+- 🌐 i18n internationalization  
+- 🧾 Printable result page (planned)
 
-## Supported Streams 📚
+---
 
-| Branch          | Specializations                     | Key Subjects               |
-|-----------------|-------------------------------------|----------------------------|
-| Scientific      | SVT, Physics-Chemistry             | Math (9), PC/SVT (7)       |
-| Mathematical    | Math A, Math B                     | Math (9), Physics (7)      |
-| Economic        | Accounting, Economics              | Economics (6), Math (4)    |
-| Technical       | Mechanical, Electrical             | Engineering (8)            |
-| Original        | Arabic, Islamic Studies           | Literature (5)             |
+## 📸 Screenshots
 
-## Demo 🌐
+### 🖼️ Home Screen (Dark Mode)
 
-Try it online: [https://bac-calculator.ma](https://bac-calculator.ma)
+![Home UI](./public/screenshots/main-ui.png)
 
-## Installation 💻
+---
 
-### Requirements
-- Node.js 18+
-- npm 9+ or yarn
-- Git
+## 🛠️ Built With
 
-### Quick Start
+- **React.js**
+- **Vite**
+- **i18next** – for translations
+- **CSS3** – custom styling with animations
+- **React Hooks** – `useState`, `useEffect`, etc.
+
+---
+
+## 🧪 How to Use
+
+1. **Clone the repository:**
+
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/moroccan-bac-calculator.git
-
-# Install dependencies
+git clone https://github.com/mohamed-driou/moroccan-bac-calculator.git
 cd moroccan-bac-calculator
+```
+
+2. **Install dependencies:**
+
+```bash
 npm install
+```
 
-# Start development server
+3. **Run the development server:**
+
+```bash
 npm run dev
+```
 
-# Open http://localhost:3000
+4. Open your browser at:  
+`http://localhost:5173`
+
+---
+
+## 📁 Project Structure
+
+```
+src/
+├── App.jsx                   # Main entry
+├── components/
+│   ├── BacFormulaCalculator/
+│   ├── Breadcrumbs/
+│   ├── MainMenu/
+│   └── SupportPage/
+├── assets/
+├── i18n/                     # Translation files
+├── App.css
+```
+
+---
+
+## 🌍 Internationalization (i18n)
+
+- Language switcher supported  
+- Default language: Arabic 🇲🇦  
+- Easily extendable to French and English
+
+---
+
+## 💖 Support & Donate
+
+If you find this project helpful, consider supporting it:
+
+- **PayPal**: [https://paypal.me/adriou](https://paypal.me/adriou)
+- **Binance ID**: `814551613`
+
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License – see the [LICENSE](https://opensource.org/licenses/MIT) file for details.
+
+---
+
+## 👤 Author
+
+**Mohamed Driou**  
+💻 _Full-stack Web Developer (Student - Morocco/China)_  
+📅 _Last updated: July 11, 2025_  
+🔖 _Version: 2.0.3_
+
+---
+
+## 🤝 Contributions
+
+Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+
+---
+
+## 📌 Extras
+
+Let me know if you'd like:
+
+- 🇫🇷 French or 🇲🇦 Arabic versions of this `README.md`  
+- 📷 Embedded screenshots  
+- 🛡️ GitHub Actions or CI/CD setup  
+- 📄 Auto-generated `LICENSE`
+
+I'm happy to help!
