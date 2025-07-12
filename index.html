@@ -4,30 +4,29 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color" content="#000000">
-  <meta name="description" content="Official Moroccan BAC Calculator - Calculate your baccalaureate average">
+  <meta name="description" content="Moroccan BAC Calculator - Calculate your baccalaureate average">
 
-  <!-- Primary Meta Tags -->
-  <meta property="og:title" content="Moroccan BAC Calculator">
-  <meta property="og:description" content="Calculate your Moroccan baccalaureate average">
-  <meta property="og:image" content="/moroccan-bac-calculator.png">
-
-  <!-- Favicon with absolute paths -->
-  <link rel="icon" type="image/png" href="/moroccan-bac-calculator.png">
-  <link rel="shortcut icon" href="/moroccan-bac-calculator.png">
-  <link rel="apple-touch-icon" href="/moroccan-bac-calculator.png">
+  <!-- Favicon Configuration -->
+  <!-- Standard favicon -->
+  <link rel="icon" type="image/x-icon" href="/favicon.ico">
+  <!-- PNG version as fallback -->
+  <link rel="icon" type="image/png" href="/MOROCCAN%20BAC%20CALCULATOR.png.png">
+  <!-- Apple Touch Icon -->
+  <link rel="apple-touch-icon" href="/MOROCCAN%20BAC%20CALCULATOR.png.png">
+  
+  <!-- Preload favicon for better performance -->
+  <link rel="preload" href="/favicon.ico" as="image" type="image/x-icon">
+  <link rel="preload" href="/MOROCCAN%20BAC%20CALCULATOR.png.png" as="image" type="image/png">
 
   <title>Moroccan BAC Calculator</title>
 </head>
 
 <body>
   <noscript>
-    <strong>This application requires JavaScript to function properly.</strong>
+    <strong>You need to enable JavaScript to run this calculator.</strong>
   </noscript>
   <div id="root"></div>
 
   <script type="module" src="/src/index.jsx"></script>
-
-  <!-- Preload favicon for better performance -->
-  <link rel="preload" href="/moroccan-bac-calculator.png" as="image">
 </body>
 </html>
