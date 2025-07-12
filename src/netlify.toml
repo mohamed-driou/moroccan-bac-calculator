@@ -5,3 +5,22 @@
 
 [context.production.environment]
   VITE_APP_VERSION = "2.0.0"
+
+# Ensure static assets are served correctly
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=3600"
+
+# Handle SPA routing and favicon
+[[redirects]]
+  from = "/moroccan-bac-calculator.png"
+  to = "/moroccan-bac-calculator.png"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
