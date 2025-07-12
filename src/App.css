@@ -15,7 +15,6 @@
   padding: 2rem;
 }
 
-
 .menu-title {
   font-size: 2rem;
   color: var(--primary-color);
@@ -75,7 +74,6 @@
   display: block;  
   text-align: center;
 }
-
 
 .menu-button {
   display: flex;
@@ -363,25 +361,6 @@ body:not(.loaded) * {
 .donate-button::before {
   content: "❤️";
   font-size: 1.1rem;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .donate-button {
-    padding: 10px 16px;
-    font-size: 0.9rem;
-    left: 15px;
-    bottom: 15px;
-  }
-}
-
-@media (max-width: 480px) {
-  .donate-button {
-    padding: 8px 12px;
-    font-size: 0.8rem;
-    left: 10px;
-    bottom: 10px;
-  }
 }
 
 /* Main Container */
@@ -955,7 +934,6 @@ input:invalid {
   margin-top: 1.5rem;
 }
 
-
 .sport-question p {
   font-weight: bold;
   margin-bottom: 0.75rem;
@@ -987,7 +965,6 @@ input:invalid {
 .law-question {
   margin-top: 1.5rem;
 }
-
 
 .law-question p {
   font-weight: bold;
@@ -1021,7 +998,6 @@ input:invalid {
   margin-top: 1.5rem;
 }
 
-
 .mis-question p {
   font-weight: bold;
   margin-bottom: 0.75rem;
@@ -1054,7 +1030,6 @@ input:invalid {
   margin-top: 1.5rem;
 }
 
-
 .it-geo-question p {
   font-weight: bold;
   margin-bottom: 0.75rem;
@@ -1086,7 +1061,6 @@ input:invalid {
 .mis-question {
   margin-top: 1.5rem;
 }
-
 
 .visual-arts-question p {
   font-weight: bold;
@@ -1192,17 +1166,6 @@ input:invalid {
   padding-left: 1rem;
 }
 
-
-
-/* Mobile responsiveness */
-@media (max-width: 640px) {
-  .language-switcher {
-    bottom: 0.5rem;
-    right: 0.5rem;
-    padding: 0.3rem 0.6rem;
-  }
-}
-
 /* Footer */
 footer.copyright {
   margin-top: 2.5rem;
@@ -1216,7 +1179,6 @@ footer.copyright {
   box-shadow: 0 4px 12px var(--shadow-color);
   animation: fadeIn 0.6s ease-out;
 }
-
 
 .version-info {
   font-size: 0.85rem;
@@ -1299,7 +1261,48 @@ footer.copyright {
 }
 
 /* Responsive Design */
-@media (max-width: 640px) {
+/* Large tablets (1024px+) */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 800px;
+    padding: 3rem;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  .menu-options {
+    gap: 3rem;
+  }
+  
+  .menu-card {
+    width: 350px;
+  }
+}
+
+/* Tablets (768px-1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
+  .container {
+    max-width: 700px;
+    padding: 2.5rem;
+  }
+  
+  .menu-options {
+    gap: 2.5rem;
+  }
+  
+  .menu-card {
+    width: 320px;
+  }
+  
+  .progress-bar {
+    gap: 1rem;
+  }
+}
+
+/* Most phones (640px-767px) */
+@media (max-width: 767px) {
   .container {
     padding: 1.75rem;
     margin: 1rem auto;
@@ -1381,16 +1384,87 @@ footer.copyright {
   }
 }
 
-@media (max-width: 400px) {
+/* Small phones (480px-639px) */
+@media (max-width: 639px) {
   .container {
-    padding: 1.25rem;
+    padding: 1.5rem;
+    border-radius: 18px;
   }
-
+  
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  .menu-title {
+    font-size: 1.8rem;
+  }
+  
+  .menu-card {
+    width: 280px;
+  }
+  
+  .progress-bar {
+    padding: 0.6rem;
+  }
+  
   .step-dot {
     width: 10px;
     height: 10px;
   }
+  
+  .form-control {
+    padding: 0.7rem 1rem;
+  }
+  
+  .btn {
+    padding: 0.8rem 1.5rem;
+    min-width: 100px;
+  }
+}
 
+/* Very small phones (375px-479px) */
+@media (max-width: 479px) {
+  body {
+    padding: 15px;
+  }
+  
+  .container {
+    padding: 1.25rem;
+    border-radius: 16px;
+  }
+  
+  h1 {
+    font-size: 1.4rem;
+  }
+  
+  .menu-title {
+    font-size: 1.6rem;
+  }
+  
+  .menu-card {
+    width: 260px;
+    padding: 1.25rem;
+  }
+  
+  .progress-bar {
+    padding: 0.5rem;
+    gap: 6px;
+  }
+  
+  .step-dot {
+    width: 8px;
+    height: 8px;
+  }
+  
+  input {
+    padding: 0.7rem 1rem;
+  }
+  
+  .btn {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
   .modal-content {
     width: 95%;
     padding: 1rem;
