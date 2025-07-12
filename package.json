@@ -1,6 +1,6 @@
 {
   "name": "moroccan-bac-calculator",
-  "version": "2.0.0",
+  "version": "2.0.4",
   "description": "A Moroccan baccalaureate average calculator web app.",
   "license": "MIT",
   "author": "Mohamed Driou",
@@ -38,6 +38,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "preview": "vite preview",
     "version:patch": "git pull --tags && npm version patch -m 'Bump version to %s'",
     "version:minor": "git pull --tags && npm version minor -m 'Bump version to %s'",
     "version:major": "git pull --tags && npm version major -m 'Bump version to %s'",

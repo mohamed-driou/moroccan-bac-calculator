@@ -14,17 +14,7 @@ const MainMenu = ({ onSelectCalculator }) => {
   return (
     <div className="menu-container">
       {/* Language Switcher */}
-      <div className={styles.languageSwitcher}>
-        <select
-          value={i18n.language}
-          onChange={changeLanguage}
-          className={styles.languageSelect}
-        >
-          <option value="en">🇬🇧 English</option>
-          <option value="fr">🇫🇷 Français</option>
-          <option value="ar">🇲🇦 العربية</option>
-        </select>
-      </div>
+
 
       <h1 className="menu-title">{t('mainMenu.title')}</h1>
       

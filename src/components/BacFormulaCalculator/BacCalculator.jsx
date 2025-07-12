@@ -74,17 +74,7 @@ const BacCalculator = ({ onBack }) => {
       </div>
 
       {/* Language Switcher */}
-      <div className={styles.languageSwitcher}>
-        <select
-          value={i18n.language}
-          onChange={changeLanguage}
-          className={styles.languageSelect}
-        >
-          <option value="en">🇬🇧 English</option>
-          <option value="fr">🇫🇷 Français</option>
-          <option value="ar">🇲🇦 العربية</option>
-        </select>
-      </div>
+
       
       <div className={styles.modeSelector}>
         {['average', 'needed', 'minimum'].map((modeType) => (

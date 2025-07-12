@@ -15,7 +15,7 @@ import SupportPage from './components/SupportPage/SupportPage';
  */
 
 const APP_VERSION = {
-  version: "2.0.3",
+  version: "2.0.4",
   build: Date.now(),
   lastUpdated: "July 11, 2025"
 };
@@ -2800,12 +2800,7 @@ export default function App() {
         return (
           <>
             <MainMenu onSelectCalculator={(type) => setCurrentView(type)} />
-            <button 
-              className="donate-button"
-              onClick={() => setCurrentView('support')}
-            >
-              {t('donate')}
-            </button>
+            
           </>
         );
     }

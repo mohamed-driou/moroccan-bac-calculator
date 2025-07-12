@@ -39,6 +39,11 @@ This project provides students in Morocco with an accurate and user-friendly too
 ![Home UI](./public/screenshots/main-ui.png)
 
 ---
+## 🔗 Live Demo
+
+Try it now: (https://sicksimo.netlify.app/)
+
+---
 
 ## 🛠️ Built With
 
@@ -107,7 +112,7 @@ If you find this project helpful, consider supporting it:
 
 - **PayPal**: [https://paypal.me/adriou](https://paypal.me/adriou)
 - **Binance ID**: `814551613`
-
+- **CIH Bank RIB**: `5619934211025700`
 
 ---
 
@@ -120,7 +125,7 @@ This project is licensed under the MIT License – see the [LICENSE](https://ope
 ## 👤 Author
 
 **Mohamed Driou**  
-💻 _Full-stack Web Developer (Student - Morocco/China)_  
+💻 _Full-stack Web Developer (Student - Morocco)_  
 📅 _Last updated: July 11, 2025_  
 🔖 _Version: 2.0.3_
 
