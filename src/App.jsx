@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
+
 import "./App.css";
+import { useTranslation } from "react-i18next";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+// Components
 import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';
 import MainMenu from './components/MainMenu/MainMenu';
-import { useTranslation } from "react-i18next";
 import BacFormulaCalculator from './components/BacFormulaCalculator/BacCalculator';
 import SupportPage from './components/SupportPage/SupportPage';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-// Import your new pages
+// Pages
 import Home from './pages/Home/Home';
 import HowToUse from './pages/HowToUse/HowToUse';
 import Contact from './pages/Contact/Contact';

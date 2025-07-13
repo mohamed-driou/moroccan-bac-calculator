@@ -511,8 +511,7 @@ input:checked + .slider:before {
 }
 
 .cta-button.primary {
-  background: #4CAF50;
-  color: white;
+ background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));   color: white;
 }
 
 .cta-button:hover {
@@ -592,7 +591,6 @@ input:checked + .slider:before {
 .home-link {
   display: inline-block;
   margin-top: 2rem;
-  color: #4CAF50;
   text-decoration: none;
 }
 
