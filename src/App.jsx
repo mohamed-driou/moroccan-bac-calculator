@@ -25,7 +25,7 @@ import AboutUs from './pages/AboutUs/AboutUs';
 const APP_VERSION = {
   version: "3.0.0",
   build: Date.now(),
-  lastUpdated: "July 11, 2025"
+  lastUpdated: "July 13, 2025"
 };
 
 const SunIcon = () => (
