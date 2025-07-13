@@ -1,0 +1,139 @@
+.how-to-use {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.how-to-use h1 {
+  color: var(--primary-color);
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.intro, .steps, .target-audience {
+  background: var(--container-bg);
+  border-radius: 15px;
+  padding: 1.8rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.how-to-use h2 {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.how-to-use p {
+  color: var(--text-color);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.steps-list, .target-audience ul {
+  padding-left: 1.5rem;
+}
+
+.steps-list li, .target-audience li {
+  margin-bottom: 0.8rem;
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+.cta {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.calculator-button {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+.calculator-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+/* Add to your existing HowToUse.css */
+.cta {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.calculator-button {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+.calculator-button.primary {
+  background: var(--container-bg);   color: var(--primary-color);   border: 2px solid var(--primary-color);
+}
+
+.calculator-button.secondary {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+}
+
+.calculator-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .cta {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .calculator-button {
+    width: 100%;
+    max-width: 250px;
+    text-align: center;
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .how-to-use {
+    padding: 1.5rem;
+  }
+  
+  .how-to-use h1 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .how-to-use {
+    padding: 1rem;
+  }
+  
+  .how-to-use h1 {
+    font-size: 1.5rem;
+  }
+  
+  .intro, .steps, .target-audience {
+    padding: 1.5rem;
+  }
+}

@@ -5,6 +5,14 @@ import MainMenu from './components/MainMenu/MainMenu';
 import { useTranslation } from "react-i18next";
 import BacFormulaCalculator from './components/BacFormulaCalculator/BacCalculator';
 import SupportPage from './components/SupportPage/SupportPage';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
+// Import your new pages
+import Home from './pages/Home/Home';
+import HowToUse from './pages/HowToUse/HowToUse';
+import Contact from './pages/Contact/Contact';
+import PrivacyPolicy from './pages/PrivacyPolicy/PrivacyPolicy';
+import AboutUs from './pages/AboutUs/AboutUs';
 
 /**
  * Moroccan Baccalaureate Calculator
@@ -15,7 +23,7 @@ import SupportPage from './components/SupportPage/SupportPage';
  */
 
 const APP_VERSION = {
-  version: "2.0.4",
+  version: "3.0.0",
   build: Date.now(),
   lastUpdated: "July 11, 2025"
 };
@@ -1579,9 +1587,7 @@ function BacAverageByStream({ onBack }) {
 
   return (
     <div className="stream-view">
-      <button onClick={onBack} className="back-button">
-        ← {t('backToMenu')}
-      </button>
+      
       
       <Breadcrumbs 
         steps={breadcrumbSteps} 
@@ -2769,92 +2775,137 @@ export default function App() {
     const lng = e.target.value;
     i18n.changeLanguage(lng);
     document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dir = lng === "ar" ? "rtl" : "ltr";
   };
 
   useEffect(() => {
-    const savedMode = localStorage.getItem('darkMode');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (savedMode === 'true' || (!savedMode && systemPrefersDark)) {
+    const savedMode = localStorage.getItem("darkMode");
+    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    if (savedMode === "true" || (!savedMode && systemPrefersDark)) {
       setDarkMode(true);
-      document.body.setAttribute('data-theme', 'dark');
+      document.body.setAttribute("data-theme", "dark");
     }
   }, []);
 
   const toggleDarkMode = () => {
     const newMode = !darkMode;
     setDarkMode(newMode);
-    document.body.setAttribute('data-theme', newMode ? 'dark' : 'light');
-    localStorage.setItem('darkMode', newMode);
+    document.body.setAttribute("data-theme", newMode ? "dark" : "light");
+    localStorage.setItem("darkMode", newMode);
   };
 
-  const renderCurrentView = () => {
-    switch(currentView) {
-      case 'stream':
-        return <BacAverageByStream onBack={() => setCurrentView('menu')} />;
-      case 'formula':
-        return <BacFormulaCalculator onBack={() => setCurrentView('menu')} />;
-      case 'support':
-        return <SupportPage onBack={() => setCurrentView('menu')} />;
-      default:
-        return (
-          <>
-            <MainMenu onSelectCalculator={(type) => setCurrentView(type)} />
-            
-          </>
-        );
-    }
-  };
+    return (
+    <Router>
+      <div className="container">
+        {/* 🌗 Toggle + Language Switch (keep your existing code) */}
+        <div className="toggle-container">
+          <span className="toggle-icon sun-icon">
+            <SunIcon />
+          </span>
+          <label className="theme-toggle">
+            <input type="checkbox" checked={darkMode} onChange={toggleDarkMode} />
+            <span className="slider"></span>
+          </label>
+          <span className="toggle-icon moon-icon">
+            <MoonIcon />
+          </span>
 
-  return (
-    <div className="container">
-      <div className="toggle-container">
-        <span className="toggle-icon sun-icon">
-          <SunIcon />
-        </span>
-        <label className="theme-toggle">
-          <input 
-            type="checkbox" 
-            checked={darkMode}
-            onChange={toggleDarkMode}
-          />
-          <span className="slider"></span>
-        </label>
-        <span className="toggle-icon moon-icon">
-          <MoonIcon />
-        </span>
-        <div className="language-switcher">
-          <select
-            value={i18n.language}
-            onChange={changeLanguage}
-            className="language-select"
-          >
-            <option value="en">🇬🇧 English</option>
-            <option value="fr">🇫🇷 Français</option>
-            <option value="ar">🇲🇦 العربية</option>
-          </select>
+          <div className="language-switcher">
+            <select
+              value={i18n.language}
+              onChange={changeLanguage}
+              className="language-select"
+            >
+              <option value="en">🇬🇧 English</option>
+              <option value="fr">🇫🇷 Français</option>
+              <option value="ar">🇲🇦 العربية</option>
+            </select>
+          </div>
         </div>
+
+        {/* Updated Routes with consistent structure */}
+        <Routes>
+          {/* Main Pages */}
+          <Route path="/" element={
+            <>
+              <MainMenu />
+              <Home />
+            </>
+          } />
+          
+          <Route path="/how-to-use" element={
+            <>
+              <MainMenu />
+              <HowToUse />
+            </>
+          } />
+          
+          <Route path="/contact" element={
+            <>
+              <MainMenu />
+              <Contact />
+            </>
+          } />
+          
+          <Route path="/privacy" element={
+            <>
+              <MainMenu />
+              <PrivacyPolicy />
+            </>
+          } />
+          
+          <Route path="/about" element={
+            <>
+              <MainMenu />
+              <AboutUs />
+            </>
+          } />
+          
+          <Route path="/support" element={
+            <>
+              <MainMenu />
+              <SupportPage onBack={() => window.history.back()} />
+            </>
+          } />
+
+          {/* Calculator Pages */}
+          <Route path="/calculator" element={
+            <>
+              <MainMenu />
+              <BacFormulaCalculator onBack={() => window.history.back()} />
+            </>
+          } />
+          
+          <Route path="/stream-calculator" element={
+            <>
+              <MainMenu />
+              <BacAverageByStream onBack={() => window.history.back()} />
+            </>
+          } />
+
+          {/* 404 Page (optional) */}
+          
+        </Routes>
+
+        {/* 🧾 Footer (keep your existing footer code) */}
+        <footer className="copyright">
+          <p>{t("footer.copyright")}</p>
+          <div className="version-info">
+            <span>{t("footer.version", { version: APP_VERSION.version })}</span>
+            <span>•</span>
+            <a
+              href="https://opensource.org/licenses/MIT"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {t("footer.license")}
+            </a>
+            <span>•</span>
+            <span>{t("footer.lastUpdated", { date: APP_VERSION.lastUpdated })}</span>
+          </div>
+        </footer>
       </div>
-      <button 
-        className="donate-button"
-        onClick={() => setCurrentView('support')}
-      >
-        {t('donate')}
-      </button>
-      {renderCurrentView()}
-
-      <footer className="copyright">
-        <p>{t('footer.copyright')}</p>
-        <div className="version-info">
-          <span>{t('footer.version', { version: APP_VERSION.version })}</span>
-          <span>•</span>
-          <a href="https://opensource.org/licenses/MIT" target="_blank" rel="noopener noreferrer">
-            {t('footer.license')}
-          </a>
-          <span>•</span>
-          <span>{t('footer.lastUpdated', { date: APP_VERSION.lastUpdated })}</span>
-        </div>
-      </footer>
-    </div>
+    </Router>
   );
 }

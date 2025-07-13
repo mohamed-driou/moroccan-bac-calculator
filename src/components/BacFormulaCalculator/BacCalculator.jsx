@@ -63,9 +63,7 @@ const BacCalculator = ({ onBack }) => {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <button onClick={onBack} className={styles.backButton}>
-          {t('buttons.back')}
-        </button>
+        
         
         <h1 className={styles.title}>{t('calculator.title')}</h1>
         

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import styles from './ResultDisplay.module.css'; // Assuming you'll create this CSS module
+import styles from './ResultDisplay.module.css';
 
 const ResultDisplay = ({ result }) => {
   const { t } = useTranslation();

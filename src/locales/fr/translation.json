@@ -265,5 +265,87 @@
       "binance": "Binance",
       "cih": "Banque CIH"
     }
+  },
+
+  "home": {
+    "title": "Bienvenue dans le Calculateur du Baccalauréat Marocain",
+    "subtitle": "Un outil simple pour calculer votre moyenne du Bac selon le système officiel marocain",
+    "howToUse": "Comment Utiliser",
+    "useStreamCalculator": "utiliser le calculateur de filièrer",
+    "useCalculator": "Utiliser le Calculateur",
+    "featuresTitle": "Fonctionnalités du Calculateur",
+    "feature1": {
+      "title": "Précis",
+      "description": "Calculs précis selon les coefficients officiels"
+    },
+    "feature2": {
+      "title": "Facile",
+      "description": "Interface simple et facile à utiliser"
+    },
+    "feature3": {
+      "title": "Complet",
+      "description": "Couvre toutes les filières et spécialités"
+    }
+  },
+  "howToUse": {
+    "title": "Comment utiliser le calculateur",
+    "introTitle": "Introduction",
+    "introText": "Le Calculateur du Bac Marocain vous permet de calculer votre moyenne finale en fonction de vos notes régionales, nationales et du contrôle continu.",
+    "stepsTitle": "Étapes d'utilisation",
+    "step1": "Choisissez le type d'étudiant (Régulier ou Candidat Libre)",
+    "step2": "Sélectionnez votre filière",
+    "step3": "Saisissez vos notes dans les champs prévus",
+    "step4": "Cliquez sur le bouton de calcul pour connaître votre moyenne",
+    "audienceTitle": "Public Cible",
+    "audience1": "Élèves de 2ème année du Baccalauréat",
+    "goToStreamCalculator": "aller au calculateur de filière",
+    "audience2": "Candidats préparant le Baccalauréat",
+    "audience3": "Enseignants et éducateurs suivant les progrès des élèves",
+    "goToCalculator": "Aller au Calculateur"
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "email": "Adresse e-mail",
+    "socialMedia": "Réseaux sociaux"
+  },
+  "privacy": {
+    "title": "Politique de Confidentialité",
+    "section1": {
+      "title": "Collecte d'informations",
+      "content": "Nous ne collectons aucune information personnelle des utilisateurs. Tous les calculs sont effectués sur votre appareil et ne sont pas enregistrés sur nos serveurs."
+    },
+    "section2": {
+      "title": "Utilisation des données",
+      "content": "Nous n'utilisons aucune donnée saisie dans le calculateur à d'autres fins que l'affichage des résultats."
+    },
+    "section3": {
+      "title": "Protection",
+      "content": "Nous veillons à protéger votre vie privée. Aucune information n'est partagée avec des tiers."
+    }
+  },
+  "about": {
+    "title": "À propos",
+    "developerTitle": "À propos du développeur",
+    "developerText": "Je suis un développeur marocain indépendant passionné par la création d'outils numériques pour aider les étudiants à réussir. Cette calculatrice a été conçue pour simplifier le calcul de la moyenne du BAC et rendre l'éducation plus accessible à tous.",
+    "whyTitle": "Pourquoi ce projet?",
+    "whyText": "De nombreux étudiants marocains ont du mal à calculer correctement leur moyenne du baccalauréat. J'ai voulu créer un outil simple, convivial et précis pour résoudre ce problème pour tout le monde.",
+    "visionTitle": "Notre vision",
+    "visionText": "Nous visons à rendre l'éducation plus accessible et transparente pour tous les étudiants marocains.",
+    "contactTitle": "Contactez-nous",
+    "contactText": "Vous avez des commentaires, des suggestions ou souhaitez collaborer? Vous pouvez me contacter à: ",
+    "contactEmail": "mohamedadriou3@gmail.com"
+  },
+  "common": {
+    "backToHome": "Retour à l'accueil"
+  },
+  "menu": {
+    "home": "Accueil",
+    "howToUse": "Comment utiliser",
+    "calculator": "Calculatrice",
+    "streamCalculator": "Calculatrice de filière",
+    "contact": "Contactez-nous",
+    "about": "À propos",
+    "privacy": "Politique de confidentialité",
+    "support": "Soutenez-nous"
   }
 }

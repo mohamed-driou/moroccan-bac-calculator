@@ -127,7 +127,7 @@ This project is licensed under the MIT License – see the [LICENSE](https://ope
 **Mohamed Driou**  
 💻 _Full-stack Web Developer (Student - Morocco)_  
 📅 _Last updated: July 11, 2025_  
-🔖 _Version: 2.0.3_
+🔖 _Version: 3.0.0_
 
 ---
 

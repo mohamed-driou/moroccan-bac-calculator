@@ -1,19 +1,25 @@
 // components/SupportPage/SupportPage.jsx
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import './SupportPage.css'; // Create this CSS file
-import paypalLogo from './assets/paypal.png'; // Add these images to your assets
+import { useNavigate } from 'react-router-dom';
+import './SupportPage.css';
+import paypalLogo from './assets/paypal.png';
 import binanceLogo from './assets/binance.png';
 import cihLogo from './assets/cih.png';
 
-function SupportPage({ onBack }) {
+function SupportPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  const handleBack = () => {
+    console.log('Back button clicked'); // Debugging
+    navigate(-1); // Go back in history
+    // OR navigate('/'); // To always go home
+  };
 
   return (
     <div className="support-page">
-      <button onClick={onBack} className="back-button">
-        ← {t('backToMenu')}
-      </button>
+      
       
       <h2>{t('support.title')}</h2>
       <p>{t('support.description')}</p>

@@ -265,6 +265,87 @@
       "binance": "Binance",
       "cih": "CIH Bank"
     }
-  }
+  },
 
+ "home": {
+    "title": "Welcome to the Moroccan Baccalaureate Calculator",
+    "subtitle": "An easy tool to calculate your Baccalaureate average according to the official Moroccan system",
+    "useStreamCalculator": "Use Stream Calculator",
+    "howToUse": "How to Use",
+    "useCalculator": "Use the Calculator",
+    "featuresTitle": "Calculator Features",
+    "feature1": {
+      "title": "Accurate",
+      "description": "Precise calculations according to official coefficients"
+    },
+    "feature2": {
+      "title": "Easy",
+      "description": "Simple and user-friendly interface"
+    },
+    "feature3": {
+      "title": "Comprehensive",
+      "description": "Covers all streams and specializations"
+    }
+  },
+  "howToUse": {
+    "title": "How to Use the Calculator",
+    "introTitle": "Introduction",
+    "introText": "The Moroccan Baccalaureate Calculator allows you to calculate your final average based on your regional, national, and continuous assessment grades.",
+    "stepsTitle": "Usage Steps",
+    "step1": "Choose your student type (Regular or Independent)",
+    "step2": "Select your academic stream",
+    "step3": "Enter your grades in the designated fields",
+    "step4": "Click the calculate button to get your average",
+    "audienceTitle": "Target Audience",
+    "audience1": "Second-year Baccalaureate students",
+    "goToStreamCalculator": "Go to Stream Calculator",
+    "audience2": "Students preparing for Baccalaureate exams",
+    "audience3": "Teachers and educators tracking student progress",
+    "goToCalculator": "Go to the Calculator"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "email": "Email",
+    "socialMedia": "Social Media"
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "section1": {
+      "title": "Information Collection",
+      "content": "We do not collect any personal information from users. All calculations are done on your device and not stored on our servers."
+    },
+    "section2": {
+      "title": "Use of Information",
+      "content": "We do not use any data you input into the calculator for any purpose other than showing you the results."
+    },
+    "section3": {
+      "title": "Protection",
+      "content": "We care about your privacy. No information is shared with third parties."
+    }
+  },
+  "about": {
+    "title": "About Us",
+    "developerTitle": "About the Developer",
+    "developerText": "I'm a solo Moroccan developer passionate about creating digital tools to help students succeed. This calculator was built to simplify the BAC average calculation process and make education more accessible to everyone.",
+    "whyTitle": "Why This Project?",
+    "whyText": "Many Moroccan students struggle to calculate their baccalaureate average correctly. I wanted to create a simple, user-friendly, and accurate tool to solve this problem for everyone.",
+    "visionTitle": "Our Vision",
+    "visionText": "We aim to make education more accessible and transparent for all Moroccan students.",
+    "contactTitle": "Get in Touch",
+    "contactText": "Have feedback, suggestions, or want to collaborate? You can reach me at: ",
+    "contactEmail": "mohamedadriou3@gmail.com"
+  },
+  "common": {
+    "backToHome": "Back to Home"
+  },
+  "menu": {
+    "home": "Home",
+    "howToUse": "How to Use",
+    "calculator": "Calculator",
+    "streamCalculator": "Stream Calculator",
+    "contact": "Contact",
+    "about": "About Us",
+    "privacy": "Privacy Policy",
+    "support": "Support Us"
+  }
 }
